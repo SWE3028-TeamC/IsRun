@@ -59,12 +59,12 @@
 
             android:text="0.00"
             android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/runVelocity"
+            app:layout_constraintEnd_toStartOf="@+id/runPace"
             app:layout_constraintStart_toEndOf="@+id/runDistance"
             app:layout_constraintTop_toBottomOf="@+id/guideline_attributes"></TextView>
 
         <TextView
-            android:id="@+id/runVelocity"
+            android:id="@+id/runPace"
             style="@style/centerText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -95,21 +95,21 @@
 
             android:text="%"
             android:textSize="12dp"
-            app:layout_constraintEnd_toStartOf="@+id/km_per_min"
+            app:layout_constraintEnd_toStartOf="@+id/min_per_km"
             app:layout_constraintStart_toEndOf="@+id/km"
             app:layout_constraintTop_toBottomOf="@+id/runPercentage"></TextView>
 
         <TextView
-            android:id="@+id/km_per_min"
+            android:id="@+id/min_per_km"
             style="@style/centerText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:text="km/minute"
+            android:text="minute/km"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="@+id/runStatus"
             app:layout_constraintStart_toEndOf="@+id/percent"
-            app:layout_constraintTop_toBottomOf="@+id/runVelocity"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/runPace"></TextView>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_attributes"
