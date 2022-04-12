@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/runStatus"
         android:layout_width="match_parent"
-        android:layout_height="151dp"
+        android:layout_height="160dp"
         app:layout_constraintBottom_toTopOf="@+id/mapView"
         app:layout_constraintTop_toTopOf="parent">
 
