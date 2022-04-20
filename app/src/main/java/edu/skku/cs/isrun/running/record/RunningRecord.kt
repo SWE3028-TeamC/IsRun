@@ -1,4 +1,4 @@
-package edu.skku.cs.isrun.running.achievement
+package edu.skku.cs.isrun.running.record
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,25 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import edu.skku.cs.isrun.databinding.RunningAchievementFragmentBinding
+import edu.skku.cs.isrun.databinding.RunningRecordFragmentBinding
 
-class RunningAchievement : Fragment() {
+class RunningRecord : Fragment() {
 
     companion object {
-        fun newInstance() = RunningAchievement()
+        fun newInstance() = RunningRecord()
     }
 
-    private var binding: RunningAchievementFragmentBinding? = null
-    private lateinit var achievementviewModel: RunningAchievementViewModel
+    private var binding: RunningRecordFragmentBinding? = null
+    private lateinit var recordviewModel: RunningRecordViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        achievementviewModel = ViewModelProvider(this).get(RunningAchievementViewModel::class.java)
-        binding = RunningAchievementFragmentBinding.inflate(inflater, container, false)
-
-        // TODO: Add to list view, Make class for achievement data
+        recordviewModel = ViewModelProvider(this).get(RunningRecordViewModel::class.java)
+        binding = RunningRecordFragmentBinding.inflate(inflater, container, false)
 
         return binding!!.root
     }
@@ -38,4 +36,5 @@ class RunningAchievement : Fragment() {
         super.onDestroyView()
         binding = null
     }
+
 }

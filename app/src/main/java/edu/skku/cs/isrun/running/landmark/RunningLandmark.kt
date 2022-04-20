@@ -1,4 +1,4 @@
-package edu.skku.cs.isrun.running.achievement
+package edu.skku.cs.isrun.running.landmark
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,26 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import edu.skku.cs.isrun.databinding.RunningAchievementFragmentBinding
+import edu.skku.cs.isrun.R
+import edu.skku.cs.isrun.databinding.RunningLandmarkFragmentBinding
 
-class RunningAchievement : Fragment() {
+class RunningLandmark : Fragment() {
 
     companion object {
-        fun newInstance() = RunningAchievement()
+        fun newInstance() = RunningLandmark()
     }
 
-    private var binding: RunningAchievementFragmentBinding? = null
-    private lateinit var achievementviewModel: RunningAchievementViewModel
+    private var binding: RunningLandmarkFragmentBinding? = null
+    private lateinit var landmarkviewModel: RunningLandmarkViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        achievementviewModel = ViewModelProvider(this).get(RunningAchievementViewModel::class.java)
-        binding = RunningAchievementFragmentBinding.inflate(inflater, container, false)
-
-        // TODO: Add to list view, Make class for achievement data
-
+        landmarkviewModel = ViewModelProvider(this).get(RunningLandmarkViewModel::class.java)
+        binding = RunningLandmarkFragmentBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -38,4 +36,5 @@ class RunningAchievement : Fragment() {
         super.onDestroyView()
         binding = null
     }
+
 }

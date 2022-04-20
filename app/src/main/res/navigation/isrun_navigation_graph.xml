@@ -13,7 +13,17 @@
     <fragment
         android:id="@+id/running_achievement"
         android:name="edu.skku.cs.isrun.running.achievement.RunningAchievement"
-        android:label="Achievement"
+        android:label="Achievements"
         tools:layout="@layout/running_achievement_fragment" />
+    <fragment
+        android:id="@+id/running_record"
+        android:name="edu.skku.cs.isrun.running.record.RunningRecord"
+        android:label="Records"
+        tools:layout="@layout/running_record_fragment" />
+    <fragment
+        android:id="@+id/running_landmark"
+        android:name="edu.skku.cs.isrun.running.landmark.RunningLandmark"
+        android:label="Landmarks"
+        tools:layout="@layout/running_landmark_fragment" />
 
 </navigation>
