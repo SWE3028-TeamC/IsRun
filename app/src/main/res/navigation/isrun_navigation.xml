@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/isrun_navigation"
+    app:startDestination="@id/runningHome">
+
+    <fragment
+        android:id="@+id/runningHome"
+        android:name="edu.skku.cs.isrun.running.home.RunningHome"
+        android:label="running_home"
+        tools:layout="@layout/running_home" />
+</navigation>

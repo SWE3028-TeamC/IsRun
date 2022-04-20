@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/running_home"
+        android:title="Running Home"/>
+
+    <item
+        android:id="@+id/running_achievement"
+        android:title="Achievements"/>
+
+    <item
+        android:id="@+id/running_record"
+        android:title="Records"/>
+
+    <item
+        android:id="@+id/running_landmark"
+        android:title="Landmarks"/>
+
+</menu>

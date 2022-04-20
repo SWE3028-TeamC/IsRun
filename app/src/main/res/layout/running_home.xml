@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".running.home.RunningHome">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/runStatus"
@@ -126,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/purple_500"
-        app:layout_constraintBottom_toTopOf="@+id/navigationRun"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/runStatus">
         <!--    Map View    -->
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -138,62 +138,9 @@
         android:text="run"
         android:backgroundTint="@color/white"
         android:textColor="@color/purple_500"
-        app:layout_constraintBottom_toTopOf="@+id/navigationRun"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="73dp"></Button>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationRun"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView">
-
-        <Button
-            android:id="@+id/run_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="home"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationRun"
-            app:layout_constraintEnd_toStartOf="@+id/achievement"
-            app:layout_constraintStart_toStartOf="@+id/navigationRun"
-            app:layout_constraintTop_toTopOf="@+id/navigationRun"></Button>
-
-        <Button
-            android:id="@+id/achievement"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="achievement"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationRun"
-            app:layout_constraintEnd_toStartOf="@+id/record"
-            app:layout_constraintStart_toEndOf="@+id/run_home"
-            app:layout_constraintTop_toTopOf="@+id/navigationRun"></Button>
-
-        <Button
-            android:id="@+id/record"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="record"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationRun"
-            app:layout_constraintEnd_toStartOf="@+id/landmark"
-            app:layout_constraintStart_toEndOf="@+id/achievement"
-            app:layout_constraintTop_toTopOf="@+id/navigationRun"></Button>
-
-        <Button
-            android:id="@+id/landmark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="landmark"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationRun"
-            app:layout_constraintEnd_toEndOf="@+id/navigationRun"
-            app:layout_constraintStart_toEndOf="@id/record"
-            app:layout_constraintTop_toTopOf="@+id/navigationRun"></Button>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="143dp"></Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
