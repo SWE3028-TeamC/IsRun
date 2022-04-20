@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/isrun_navigation"
+    app:startDestination="@id/running_home">
+
+    <fragment
+        android:id="@+id/running_home"
+        android:name="edu.skku.cs.isrun.running.home.RunningHome"
+        android:label="Running Home"
+        tools:layout="@layout/running_home_fragment" />
+    <fragment
+        android:id="@+id/running_achievement"
+        android:name="edu.skku.cs.isrun.running.achievement.RunningAchievement"
+        android:label="Achievement"
+        tools:layout="@layout/running_achievement_fragment" />
+
+</navigation>

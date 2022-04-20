@@ -2,32 +2,36 @@ package edu.skku.cs.isrun
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.skku.cs.isrun.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.getRoot())
+        setContentView(binding.root)
 
         val navView = findViewById<BottomNavigationView>(R.id.run_nav_view)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        val appBarConfiguration: AppBarConfiguration = AppBarConfiguration.Builder(
-            R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark
-        ).build()
+        val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
+            setOf(R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark)
+        )
 
-        val navController = findNavController(this, R.id.nav_host_fragment_main_activity)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
         setupActionBarWithNavController(this, navController, appBarConfiguration)
-        setupWithNavController(binding!!.runNavView, navController)
+
+        binding.runNavView.setupWithNavController(navController)
+
     }
 }

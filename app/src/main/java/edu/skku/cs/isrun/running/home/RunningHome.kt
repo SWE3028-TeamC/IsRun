@@ -8,21 +8,26 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
-import edu.skku.cs.isrun.databinding.RunningHomeBinding
+import edu.skku.cs.isrun.databinding.RunningHomeFragmentBinding
 
 class RunningHome: Fragment() {
 
-    private var binding: RunningHomeBinding? = null
+    private var binding: RunningHomeFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val homeViewModel: RunningHomeViewModel = ViewModelProvider(this).get(RunningHomeViewModel::class.java)
-        binding = RunningHomeBinding.inflate(inflater, container, false)
-        val root: View = binding!!.getRoot()
+        binding = RunningHomeFragmentBinding.inflate(inflater, container, false)
+        val root: View = binding!!.root
 
         return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        // TODO: Use the ViewModel
     }
 
     override fun onDestroyView() {
