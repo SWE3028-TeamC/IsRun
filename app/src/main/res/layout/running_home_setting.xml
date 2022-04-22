@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Running Setting"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,23 +30,25 @@
 
     <Switch
         android:id="@+id/free_switch"
-        android:layout_marginTop="60dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:minHeight="48dp"
         android:text="Free Mode            "
-        app:layout_constraintTop_toBottomOf="@+id/run_set_title"
+        app:layout_constraintBottom_toTopOf="@+id/recommend_switch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/recommend_switch" />
+        app:layout_constraintTop_toBottomOf="@+id/run_set_title" />
 
     <Switch
         android:id="@+id/recommend_switch"
-        android:layout_marginTop="60dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:minHeight="48dp"
         android:text="Recommendation"
+        app:layout_constraintBottom_toTopOf="@+id/timeTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/free_switch"
-        app:layout_constraintBottom_toTopOf="@+id/timeTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/free_switch" />
 
     <TextView
         android:id="@+id/timeTitle"

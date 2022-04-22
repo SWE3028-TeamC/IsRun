@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/gaming_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_running_home_24"
+        android:title="Gaming Home"/>
+
+    <item
+        android:id="@+id/gaming_character"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Characters"/>
+
+    <item
+        android:id="@+id/gaming_background"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Backgrounds"/>
+
+    <item
+        android:id="@+id/gaming_store"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Store"/>
+
+
+</menu>
