@@ -10,7 +10,6 @@
         android:id="@+id/container_achieve_overall"
         android:layout_width="match_parent"
         android:layout_height="151dp"
-        android:elevation="20dp"
         android:paddingStart="24dp"
         android:paddingTop="24dp"
         android:paddingEnd="24dp"
