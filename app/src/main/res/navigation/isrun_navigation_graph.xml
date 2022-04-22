@@ -11,8 +11,8 @@
         android:label="Running Home"
         tools:layout="@layout/running_home_fragment" >
         <action
-            android:id="@+id/action_running_home_to_runningHome_seting"
-            app:destination="@id/runningHome_seting" />
+            android:id="@+id/action_running_home_to_runningHome_setting"
+            app:destination="@id/running_home_setting" />
     </fragment>
     <fragment
         android:id="@+id/running_achievement"
@@ -30,9 +30,9 @@
         android:label="Landmarks"
         tools:layout="@layout/running_landmark_fragment" />
     <fragment
-        android:id="@+id/runningHome_seting"
-        android:name="edu.skku.cs.isrun.running.home.setting.RunningHome_seting"
-        android:label="running_home_seting_fragment"
-        tools:layout="@layout/running_home_seting_fragment" />
+        android:id="@+id/running_home_setting"
+        android:name="edu.skku.cs.isrun.running.home.setting.RunningHome_setting"
+        android:label="running_home_setting_fragment"
+        tools:layout="@layout/running_home_setting_fragment" />
 
 </navigation>

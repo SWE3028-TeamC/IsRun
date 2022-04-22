@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import edu.skku.cs.isrun.R
 
-class RunningHome_seting : Fragment() {
+class RunningHome_setting : Fragment() {
 
     companion object {
-        fun newInstance() = RunningHome_seting()
+        fun newInstance() = RunningHome_setting()
     }
 
-    private lateinit var viewModel: RunningHomeSetingViewModel
+    private lateinit var viewModel: RunningHomeSettingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.running_home_seting_fragment, container, false)
+        return inflater.inflate(R.layout.running_home_setting_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RunningHomeSetingViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RunningHomeSettingViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
