@@ -9,7 +9,11 @@
         android:id="@+id/running_home"
         android:name="edu.skku.cs.isrun.running.home.RunningHome"
         android:label="Running Home"
-        tools:layout="@layout/running_home_fragment" />
+        tools:layout="@layout/running_home_fragment" >
+        <action
+            android:id="@+id/action_running_home_to_runningHome_seting"
+            app:destination="@id/runningHome_seting" />
+    </fragment>
     <fragment
         android:id="@+id/running_achievement"
         android:name="edu.skku.cs.isrun.running.achievement.RunningAchievement"
@@ -25,5 +29,10 @@
         android:name="edu.skku.cs.isrun.running.landmark.RunningLandmark"
         android:label="Landmarks"
         tools:layout="@layout/running_landmark_fragment" />
+    <fragment
+        android:id="@+id/runningHome_seting"
+        android:name="edu.skku.cs.isrun.running.home.setting.RunningHome_seting"
+        android:label="running_home_seting_fragment"
+        tools:layout="@layout/running_home_seting_fragment" />
 
 </navigation>
