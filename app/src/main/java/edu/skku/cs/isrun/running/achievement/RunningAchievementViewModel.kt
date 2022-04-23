@@ -23,7 +23,11 @@ class RunningAchievementViewModel : ViewModel() {
         mText!!.setValue("This is home fragment")
     }
 
-    fun getText(): MutableList<Achievement> {
+    fun getText(): LiveData<String>? {
+        return mText
+    }
+
+    fun getList(): MutableList<Achievement> {
         return sampleList
     }
 

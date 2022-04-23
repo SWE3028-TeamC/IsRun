@@ -33,11 +33,11 @@
         android:id="@+id/average_pace"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginVertical="8dp"
-        android:textAlignment="textEnd"
+        android:layout_marginEnd="24dp"
         android:gravity="center_vertical"
-        android:text="32 min"
+        android:text="32 m/km"
+        android:textAlignment="textEnd"
         android:textSize="15sp" />
 
 

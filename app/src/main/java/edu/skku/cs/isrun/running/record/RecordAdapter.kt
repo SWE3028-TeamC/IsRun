@@ -1,4 +1,4 @@
-package edu.skku.cs.isrun.running.achievement
+package edu.skku.cs.isrun.running.record
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,21 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.CheckBox
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import edu.skku.cs.isrun.R
 
-class Achievement(var done: Boolean, var title: String, var percent: String)
 
-class AchievementAdapter(private var Achievements: MutableList<Achievement>, private var mContext: Context) : BaseAdapter() {
+class Record(var date:String, var total_distance:String, var average_pace: String)
 
+class RecordAdapter(private var Records: MutableList<Record>, private var mContext: Context): BaseAdapter() {
     override fun getCount(): Int {
-        return Achievements.size
+        return Records.size
     }
 
     override fun getItem(i: Int): Any {
-        return Achievements[i]
+        return Records[i]
     }
 
     override fun getItemId(i: Int): Long {
@@ -32,25 +31,24 @@ class AchievementAdapter(private var Achievements: MutableList<Achievement>, pri
         var viewtemp = view
         if (viewtemp == null) {
             val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            viewtemp = inflater.inflate(R.layout.item_achievement, viewGroup, false)
+            viewtemp = inflater.inflate(R.layout.item_record, viewGroup, false)
         }
 
-        val checkBox: CheckBox =  viewtemp!!.findViewById(R.id.done)
         val textViews = java.util.ArrayList<TextView>()
-        textViews.add(viewtemp.findViewById(R.id.achievement_title))
-        textViews.add(viewtemp.findViewById(R.id.achieve_percent))
+        textViews.add(viewtemp!!.findViewById(R.id.date))
+        textViews.add(viewtemp.findViewById(R.id.total_distance))
+        textViews.add(viewtemp.findViewById(R.id.average_pace))
 
         val white = ContextCompat.getColor(mContext, R.color.white)
         val purple = ContextCompat.getColor(mContext, R.color.purple_500)
 
-        val temp: Achievement = Achievements[i]
+        val temp: Record = Records[i]
 
-        checkBox.isChecked = temp.done
-        textViews[0].text = temp.title
-        textViews[1].text = temp.percent+"%"
+        textViews[0].text = temp.date
+        textViews[1].text = temp.total_distance + " km"
+        textViews[2].text = temp.average_pace + " m/km"
 
         return viewtemp
     }
-
 
 }

@@ -28,14 +28,11 @@ class RunningAchievement : Fragment() {
         achievementviewModel = ViewModelProvider(this).get(RunningAchievementViewModel::class.java)
         binding = RunningAchievementFragmentBinding.inflate(inflater, container, false)
 
-        // TODO: Add to list view, Make class for achievement data
-        var achievementList = binding?.root?.findViewById<ListView>(R.id.achievement_list)
-        var achievementAdapter = AchievementAdapter(achievementviewModel.getText(), this.requireContext())
+        val achievementList = binding?.root?.findViewById<ListView>(R.id.achievement_list)
+        val achievementAdapter = AchievementAdapter(achievementviewModel.getList(), this.requireContext())
         if (achievementList != null) {
             achievementList.adapter = achievementAdapter
         }
-
-        println(achievementviewModel.getText()[0])
 
         return binding!!.root
     }
