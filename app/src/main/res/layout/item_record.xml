@@ -5,8 +5,10 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="70dp">
 
+    <!--TODO match item textView width to parent-->
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
@@ -20,7 +22,7 @@
 
     <TextView
         android:id="@+id/total_distance"
-        android:layout_width="210dp"
+        android:layout_width="190dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="4dp"
         android:layout_marginVertical="8dp"
@@ -36,7 +38,7 @@
         android:layout_marginVertical="8dp"
         android:layout_marginEnd="24dp"
         android:gravity="center_vertical"
-        android:text="32 m/km"
+        android:text="32 min"
         android:textAlignment="textEnd"
         android:textSize="15sp" />
 

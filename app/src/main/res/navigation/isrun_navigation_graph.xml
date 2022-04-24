@@ -11,7 +11,7 @@
         android:label="Running Home"
         tools:layout="@layout/running_home_fragment" >
         <action
-            android:id="@+id/action_running_home_to_runningHome_setting"
+            android:id="@+id/action_running_home_to_running_home_setting"
             app:destination="@id/running_home_setting" />
     </fragment>
     <fragment
