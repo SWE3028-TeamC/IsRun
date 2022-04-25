@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import edu.skku.cs.isrun.R
 
-class RunningHome_setting : Fragment() {
+class RunningHomeSetting : Fragment() {
 
     companion object {
-        fun newInstance() = RunningHome_setting()
+        fun newInstance() = RunningHomeSetting()
     }
 
     private lateinit var viewModel: RunningHomeSettingViewModel
