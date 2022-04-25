@@ -47,6 +47,7 @@
         android:layout_marginTop="60dp"
         android:minHeight="48dp"
         android:text="Recommendation"
+        android:checked="true"
         app:layout_constraintBottom_toTopOf="@+id/timeTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/free_switch" />
