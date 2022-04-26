@@ -1,4 +1,4 @@
-package edu.skku.cs.isrun.running.home.setting
+package edu.skku.cs.isrun.running.home.result
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -10,38 +10,37 @@ import android.widget.Button
 import androidx.navigation.Navigation
 import edu.skku.cs.isrun.R
 
-class RunningHomeSetting : Fragment() {
+class RunningHomeResult : Fragment() {
 
     companion object {
-        fun newInstance() = RunningHomeSetting()
+        fun newInstance() = RunningHomeResult()
     }
 
-    private lateinit var viewModel: RunningHomeSettingViewModel
+    private lateinit var viewModel: RunningHomeResultViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.running_home_setting_fragment, container, false)
+        return inflater.inflate(R.layout.running_home_result_fragment, container, false)
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[RunningHomeSettingViewModel::class.java]
+        viewModel = ViewModelProvider(this)[RunningHomeResultViewModel::class.java]
         // TODO: Use the ViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setStartButton(view)
+        setRunButton(view)
     }
 
     // function for setting run button to next navigation
-    private fun setStartButton(view: View) {
+    private fun setRunButton(view: View) {
         val navController = Navigation.findNavController(view)
-        view.findViewById<Button>(R.id.startBtn).setOnClickListener {
-            navController.navigate(R.id.action_running_home_setting_to_running_home_running)
+        view.findViewById<Button>(R.id.returnBtn).setOnClickListener {
+            navController.navigate(R.id.action_running_home_result_to_running_home)
         }
     }
 

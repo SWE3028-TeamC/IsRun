@@ -34,6 +34,34 @@
         android:id="@+id/running_home_setting"
         android:name="edu.skku.cs.isrun.running.home.setting.RunningHomeSetting"
         android:label="running_home_setting_fragment"
-        tools:layout="@layout/running_home_setting_fragment" />
+        tools:layout="@layout/running_home_setting_fragment" >
+        <action
+            android:id="@+id/action_running_home_setting_to_running_home_running"
+            app:destination="@id/running_home_running"
+            app:popUpTo="@id/running_home_setting"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/running_home_running"
+        android:name="edu.skku.cs.isrun.running.home.running.RunningHomeRunning"
+        android:label="running_home_running_fragment"
+        tools:layout="@layout/running_home_running_fragment" >
+        <action
+            android:id="@+id/action_running_home_running_to_running_home_result"
+            app:destination="@id/running_home_result"
+            app:popUpTo="@id/running_home_running"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/running_home_result"
+        android:name="edu.skku.cs.isrun.running.home.result.RunningHomeResult"
+        android:label="running_home_result_fragment"
+        tools:layout="@layout/running_home_result_fragment" >
+        <action
+            android:id="@+id/action_running_home_result_to_running_home"
+            app:destination="@id/running_home"
+            app:popUpTo="@id/running_home"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>
