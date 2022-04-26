@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.kakao.util.maps.helper.Utility
 import edu.skku.cs.isrun.R
 import edu.skku.cs.isrun.databinding.RunningHomeFragmentBinding
 import net.daum.mf.map.api.MapView
@@ -58,7 +59,12 @@ class RunningHome: Fragment() {
 
     // function for KAKAO MAP
     private fun setMap(){
-        val mapView = MapView(activity)
+
+        var keyHash = Utility.getKeyHash(this.context)
+        Log.e("Hash key kakao", keyHash)
+
+        val mapView = MapView(this.activity)
+//        Log.e("mapView", mapView.)
         binding?.mapView?.addView(mapView)
     }
 
