@@ -2,9 +2,13 @@ package edu.skku.cs.isrun
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Layout
 import android.util.Base64
 import android.util.Log
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kakao.util.maps.helper.Utility
 import edu.skku.cs.isrun.databinding.ActivityMainBinding
+import net.daum.mf.map.api.MapView
 import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         binding.runNavView.setupWithNavController(navController)
-
 
         var keyHash = Utility.getKeyHash(this)
         Log.e("Hash key kakao", keyHash)
