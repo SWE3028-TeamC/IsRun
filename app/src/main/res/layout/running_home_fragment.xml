@@ -15,14 +15,13 @@
 
         <TextView
             android:id="@+id/runTime"
-            style="@style/centerText"
+            style="@style/centerText.big"
 
             android:layout_width="135dp"
             android:layout_height="42dp"
             android:layout_marginTop="17dp"
 
             android:text="00:00:00"
-            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="@+id/runStatus"
             app:layout_constraintStart_toStartOf="@+id/runStatus"
             app:layout_constraintTop_toTopOf="@+id/runStatus"/>

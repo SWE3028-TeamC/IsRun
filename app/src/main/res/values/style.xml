@@ -5,4 +5,28 @@
         <item name="android:gravity">center</item>
         <item name="android:fontWeight">500</item>
     </style>
+
+    <style name="centerText.big">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="centerText.mid">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="title" parent="Widget.MaterialComponents.TextView">
+    </style>
+
+    <style name="title.big">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="title.mid">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="title.mid.end">
+        <item name="android:textAlignment">textEnd</item>
+    </style>
+
 </resources>

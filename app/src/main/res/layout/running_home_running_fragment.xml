@@ -1,24 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingEnd="70dp"
+    android:paddingStart="70dp"
     tools:context=".running.home.running.RunningHomeRunning">
 
     <TextView
+        android:id="@+id/timeTitle"
+        style="@style/centerText.mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/total_time"
+        style="@style/centerText.big"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeTitle" />
+
+    <TextView
+        android:id="@+id/distanceRow"
+
+        style="@style/title.mid"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Running State"
-        app:layout_constraintStart_toEndOf="@+id/finishBtn"
-        app:layout_constraintTop_toTopOf="parent"/>
+
+        android:layout_marginTop="30dp"
+
+        android:text="distance"
+        app:layout_constraintEnd_toStartOf="@+id/title_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_time" />
+
+    <TextView
+        android:id="@+id/percentRow"
+        style="@style/title.mid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="30dp"
+
+        android:text="percent"
+        app:layout_constraintEnd_toStartOf="@+id/title_row"
+        app:layout_constraintStart_toStartOf="@+id/distanceRow"
+        app:layout_constraintTop_toBottomOf="@+id/distanceRow" />
+
+    <TextView
+        android:id="@+id/paceRow"
+        style="@style/title.mid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="30dp"
+
+        android:text="pace"
+        app:layout_constraintEnd_toStartOf="@+id/title_row"
+        app:layout_constraintStart_toStartOf="@+id/distanceRow"
+        app:layout_constraintTop_toBottomOf="@+id/percentRow" />
+
+    <TextView
+        android:id="@+id/total_distance"
+        style="@style/title.mid.end"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="0.00 km"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/distanceRow"
+        app:layout_constraintTop_toTopOf="@+id/distanceRow" />
+
+    <TextView
+        android:id="@+id/percent"
+        style="@style/title.mid.end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="0.00 %"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/percentRow"
+        app:layout_constraintTop_toTopOf="@+id/percentRow" />
+
+
+    <TextView
+        android:id="@+id/average_pace"
+        style="@style/title.mid.end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="0.00 km/min"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/paceRow"
+        app:layout_constraintTop_toTopOf="@+id/paceRow" />
+
+    <Button
+        android:id="@+id/start_pauseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pause"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/finishBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paceRow" />
+
     <Button
         android:id="@+id/finishBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="finish"/>
+        android:text="finish"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/start_pauseBtn"
+        app:layout_constraintTop_toBottomOf="@+id/paceRow" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/title_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="95dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
