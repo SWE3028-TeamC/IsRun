@@ -9,12 +9,12 @@
     tools:context=".running.home.setting.RunningHomeSetting">
 
     <TextView
+        style="@style/title.big"
         android:id="@+id/run_set_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Running Setting"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
+        style="@style/title.mid"
         android:id="@+id/free_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/run_set_title" />
 
     <Switch
+        style="@style/title.mid"
         android:id="@+id/recommend_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,6 +55,8 @@
         app:layout_constraintTop_toBottomOf="@+id/free_switch" />
 
     <TextView
+        style="@style/title.mid"
+        android:layout_marginTop="50dp"
         android:id="@+id/timeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,11 +79,14 @@
 
 
     <TextView
+        style="@style/title.mid"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="120dp"
         android:id="@+id/distanceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/seekBarTime"
-        app:layout_constraintBottom_toTopOf="@+id/seekBarDistance"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
         app:layout_constraintStart_toStartOf="parent"
         android:text="Distance : "
         />
@@ -90,7 +97,6 @@
         android:layout_height="wrap_content"
         android:max="100"
         android:progress="68"
-        app:layout_constraintBottom_toTopOf="@+id/startBtn"
         app:layout_constraintTop_toBottomOf="@+id/distanceTitle"
         tools:layout_editor_absoluteX="146dp" />
 

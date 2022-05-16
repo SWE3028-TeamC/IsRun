@@ -13,6 +13,7 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.navigation.Navigation
 import edu.skku.cs.isrun.R
+import edu.skku.cs.isrun.running.home.RunningHomeViewModel
 
 class RunningHomeSetting : Fragment() {
 
@@ -20,7 +21,7 @@ class RunningHomeSetting : Fragment() {
         fun newInstance() = RunningHomeSetting()
     }
 
-    private lateinit var viewModel: RunningHomeSettingViewModel
+    private lateinit var viewModel: RunningHomeViewModel
     private var timeSet: Double = 0.0
     private var distanceSet: Double = 0.0
     private var freeMode: Boolean = false
@@ -35,14 +36,14 @@ class RunningHomeSetting : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[RunningHomeSettingViewModel::class.java]
+        viewModel = ViewModelProvider(this)[RunningHomeViewModel::class.java]
 
     }
 
     @SuppressLint("SetTextI18n", "UseSwitchCompatOrMaterialCode")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[RunningHomeSettingViewModel::class.java]
+        viewModel = ViewModelProvider(this)[RunningHomeViewModel::class.java]
         setStartButton(view,viewModel)
 
         var freeMode = view.findViewById<Switch>(R.id.free_switch)
@@ -79,6 +80,11 @@ class RunningHomeSetting : Fragment() {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 if(p2){
                     viewModel.getTime(p1)
+                    if(viewModel.timeSet <7.5 && viewModel.recommendMode){
+                        viewModel.timeSet = 7.5
+                        viewModel.distanceSet = 1.0
+                        timePercent.progress = viewModel.getTimeProgress()
+                    }
                     timeView.text = "Time : ${viewModel.timeSet} min"
                     distanceView.text = "Distance : ${viewModel.distanceSet} km"
                     distancePercent.progress = viewModel.getDistanceProgress()
@@ -117,7 +123,7 @@ class RunningHomeSetting : Fragment() {
     }
 
     // function for setting run button to next navigation
-    private fun setStartButton(view: View,viewModel: RunningHomeSettingViewModel) {
+    private fun setStartButton(view: View, viewModel: RunningHomeViewModel) {
         freeMode = viewModel.freeMode
         timeSet = viewModel.timeSet
         distanceSet = viewModel.distanceSet

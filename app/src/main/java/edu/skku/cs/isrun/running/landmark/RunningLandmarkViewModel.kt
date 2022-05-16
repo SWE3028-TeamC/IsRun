@@ -10,7 +10,7 @@ class RunningLandmarkViewModel : ViewModel() {
 
     fun RunningAchievementViewModel() {
         mText = MutableLiveData()
-        mText!!.setValue("This is home fragment")
+        mText!!.value = "This is home fragment"
     }
 
     fun getText(): LiveData<String>? {

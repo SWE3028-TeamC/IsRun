@@ -13,20 +13,18 @@
         style="@style/centerText.mid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:text="Time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/goal_title" />
 
-    <TextView
+    <Chronometer
         android:id="@+id/total_time"
         style="@style/centerText.big"
 
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
-        android:text="00:00:00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeTitle" />
@@ -130,6 +128,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="95dp" />
+
+    <TextView
+        android:id="@+id/goal_title"
+        style="@style/title.mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goal_time"
+        style="@style/title.mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        app:layout_constraintEnd_toStartOf="@+id/goal_distance"
+        app:layout_constraintStart_toEndOf="@+id/goal_title"
+        app:layout_constraintTop_toTopOf="@+id/goal_title" />
+
+    <TextView
+        style="@style/title.mid"
+        android:id="@+id/goal_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.00km"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/goal_time" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
