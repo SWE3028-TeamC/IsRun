@@ -23,6 +23,7 @@ import java.security.MessageDigest
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val mode = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
-            setOf(R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark)
+            setOf(R.id.gaming_home ,R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark)
         )
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -68,4 +69,6 @@ class MainActivity : AppCompatActivity() {
 //        getAppKeyHash()
 
     }
+
+
 }

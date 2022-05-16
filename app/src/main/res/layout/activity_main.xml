@@ -12,21 +12,44 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:elevation="3dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:defaultNavHost="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/isrun_navigation_graph" />
+
+    <Button
+        android:id="@+id/modeBtn"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@color/white"
+        app:backgroundTint="@null"
+        android:paddingTop="17dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:drawableTop="@drawable/ic_baseline_videogame_asset_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_20percent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/run_nav_view"
         android:layout_width="0dp"
         android:layout_height="70dp"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_run_menu"/>
+        app:layout_constraintStart_toStartOf="@id/guideline_20percent"
+        app:menu="@menu/bottom_run_menu" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_20percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

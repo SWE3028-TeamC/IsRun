@@ -131,16 +131,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:id="@+id/run"
-        android:padding="0dp"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:text="run"
+        android:layout_marginBottom="143dp"
         android:backgroundTint="@color/white"
+        android:text="run"
         android:textColor="@color/black"
+        app:cornerRadius="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="143dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
