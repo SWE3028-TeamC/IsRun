@@ -19,12 +19,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.ArrayList;
 
 public class GridViewAdapter extends BaseAdapter {
-    private ArrayList<Integer> chs;
+    private ArrayList<charpopup> chs;
     private Context mContext;
 
+    private String charname;
+    private String charimg;
+    private int resID;
+    private String memo;
 
 
-    GridViewAdapter (Context mContext, ArrayList<Integer> chs) {
+
+    GridViewAdapter (Context mContext, ArrayList<charpopup> chs) {
         this.mContext = mContext;
         this.chs = chs;
     }
@@ -44,6 +49,20 @@ public class GridViewAdapter extends BaseAdapter {
         return i;
     }
 
+    public String getCharname(int i) {
+        return chs.get(i).getName();
+    }
+    public String getCharimg(int i) {
+        return chs.get(i).getImg();
+    }
+    public int getResID(int i) {
+        return chs.get(i).getResID();
+    }
+    public String getMemo(int i) {
+        return chs.get(i).getTalk();
+    }
+
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view==null) {
@@ -52,18 +71,25 @@ public class GridViewAdapter extends BaseAdapter {
         }
         ImageView iv1 = view.findViewById(R.id.imageView);
         TextView tx1 = view.findViewById(R.id.textView);
-        if (i==0) {
+
+        charname = chs.get(i).getName();
+        tx1.setText(charname);
+        resID = chs.get(i).getResID();
+        iv1.setImageResource(resID);
+        charimg = chs.get(i).getImg();
+
+        /*if (i==0) {
             iv1.setImageResource(R.drawable.cat);
-            tx1.setText("KITTY");
+            charimg = "cat";
         }
         else if (i==1) {
             iv1.setImageResource(R.drawable.dog);
-            tx1.setText("DOGGY");
+            charimg = "dog";
         }
         else if (i==2) {
             iv1.setImageResource(R.drawable.hamster);
-            tx1.setText("HAMMY");
-        }
+            charimg = "hamster";
+        }*/
         return view;
     }
 }
