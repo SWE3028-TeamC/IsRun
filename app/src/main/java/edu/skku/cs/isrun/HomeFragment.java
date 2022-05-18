@@ -69,10 +69,44 @@ public class HomeFragment extends Fragment {
         ImageView bg= (ImageView) v.findViewById(R.id.gameBackground);;
 
         try {
-            Glide.with(this).load(R.raw.ham).into(ch);
+            Glide.with(this).load(R.raw.hamster).into(ch);
             bg.setImageResource(R.drawable.bg1);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        Bundle bundle = getArguments();
+        if (bundle != null)
+        {
+            String bgchange = bundle.getString("background"); // 프래그먼트1에서 받아온 값 넣기
+            if (!(bgchange.equals("NONE"))) {
+                int resid = getResources().getIdentifier(bgchange, "drawable", this.getActivity().getPackageName());
+                bg.setImageResource(resid);
+            }
+            String chchange = bundle.getString("character"); // 프래그먼트1에서 받아온 값 넣기
+            if (!(chchange.equals("NONE"))) {
+                if (chchange.equals("hamster")) {
+                    try {
+                        Glide.with(this).load(R.raw.hamster).into(ch);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (chchange.equals("dog")) {
+                    try {
+                        Glide.with(this).load(R.raw.dog).into(ch);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (chchange.equals("cat")) {
+                    try {
+                        Glide.with(this).load(R.raw.cat).into(ch);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
 
         return v;

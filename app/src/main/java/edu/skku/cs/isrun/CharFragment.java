@@ -1,5 +1,8 @@
 package edu.skku.cs.isrun;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +10,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -52,7 +62,7 @@ public class CharFragment extends Fragment {
 
     private GridView plate;
     private GridViewAdapter gridViewAdapter;
-    private ArrayList<Integer> characterlist;
+    private ArrayList<charpopup> characterlist;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,21 +72,107 @@ public class CharFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    public void charset(String img, String name, int level, String talk) {
+        charpopup chh;
+        chh = new charpopup();
+        int resid ;
+        resid = getResources().getIdentifier(img,"drawable",this.getActivity().getPackageName());
+
+        chh.setImg(img);
+        chh.setLevel(level);
+        chh.setName(name);
+        chh.setResID(resid);
+        chh.setTalk(talk);
+        characterlist.add(chh);
+    }
+    public void popUpImg(int resId, String img, Context context, String memo) {
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.char_popup, null);
+        ImageView imageView = view.findViewById(R.id.popup_img);
+        TextView textView = view.findViewById(R.id.popup_txt);
+
+        imageView.setImageResource(resId);
+        textView.setText(memo);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        builder.setPositiveButton("X", new DialogInterface.OnClickListener() {
+            @Override public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.setNegativeButton("SET", new DialogInterface.OnClickListener() {
+            @Override public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null) {
+                    ((MainActivity)getActivity()).gett("NONE",img);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog dialog;
+        dialog = builder.create();
+        dialog.show();
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_char, container, false);
-        characterlist = new ArrayList<Integer>();
+        characterlist = new ArrayList<charpopup>();
         plate = v.findViewById(R.id.grid);
-        characterlist.add(0);
-        characterlist.add(1);
-        characterlist.add(2);
+
+
+        charset("cat","KITTY",1,"This is a kitty");
+        charset("dog","DOGGY",1, "This is dog");
+        charset("hamster","HAMMY",1,"This is a hamster");
+
+        /*charpopup ch1;
+        ch1 = new charpopup();
+
+        int resid ;
+        resid = getResources().getIdentifier("cat","drawable",this.getActivity().getPackageName());
+        ch1.setImg("cat");
+        ch1.setLevel(1);
+        ch1.setName("KITTY");
+        ch1.setResID(resid);
+        characterlist.add(ch1);
+        ch1 = new charpopup();
+        resid = getResources().getIdentifier("dog","drawable",this.getActivity().getPackageName());
+        ch1.setImg("dog");
+        ch1.setLevel(1);
+        ch1.setName("DOGGY");
+        ch1.setResID(resid);
+        characterlist.add(ch1);
+        ch1 = new charpopup();
+        resid = getResources().getIdentifier("hamster","drawable",this.getActivity().getPackageName());
+        ch1.setImg("hamster");
+        ch1.setLevel(1);
+        ch1.setName("HAMMY");
+        ch1.setResID(resid);
+        characterlist.add(ch1);
+*/
 
         gridViewAdapter = new GridViewAdapter(getContext(),characterlist);
         plate.setAdapter(gridViewAdapter);
 
+        plate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String charimg = (String)gridViewAdapter.getCharimg(position);
+                int resid = (Integer)gridViewAdapter.getResID(position);
+
+                System.out.println(charimg+resid);
+                popUpImg(resid,charimg,getContext(),gridViewAdapter.getMemo(position));
+                //Toast.makeText(getContext(), charname, Toast.LENGTH_SHORT).show();
+            }
+        });
         return v;
     }
 }

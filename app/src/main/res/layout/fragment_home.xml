@@ -21,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/gameImage"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,9 +211,12 @@
                 android:id="@+id/foodbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:src="@drawable/ic_baseline_pets_24"
                 app:backgroundTint="#F4A530"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -221,13 +224,13 @@
                 android:id="@+id/playbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginTop="-10dp"
+                android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:src="@drawable/ic_baseline_toys_24"
                 app:backgroundTint="#FFC107"
-                app:layout_constraintStart_toEndOf="@+id/foodbutton"
-                app:layout_constraintTop_toTopOf="@+id/guideline3" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/foodbutton"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

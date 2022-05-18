@@ -3,11 +3,13 @@ package edu.skku.cs.isrun;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +23,20 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment;
     BackFragment backFragment;
     StorFragment storFragment;
+    String background="NONE";
+    String character="NONE";
+
+    // 서버
+    // userdata받아오기.. food gold character landmark poster 등등
+    public void gett (String back, String charr) {
+        if (!(back.equals("NONE"))) {
+            background = back;
+        }
+        if (!(charr.equals("NONE"))) {
+            character = charr;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         homeFragment =  new HomeFragment();
         backFragment =  new BackFragment();
         storFragment =  new StorFragment();
+        FragmentManager fm = getSupportFragmentManager();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
         nv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -52,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.gaming_home:
+                        if (background!=null || character!=null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("background", background);
+                            bundle.putString("character", character);
+                            homeFragment.setArguments(bundle);
+                        }
+
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
                         return true;
                 }
