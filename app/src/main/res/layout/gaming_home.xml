@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toTopOf="@+id/gameBackList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/gameBackground"
@@ -28,13 +28,15 @@
 
         <ImageView
             android:id="@+id/gameCharacter"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/idle_0_1"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintVertical_bias="0.866"
+            app:srcCompat="@drawable/idle_0_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -42,9 +44,9 @@
         android:id="@+id/gameBackList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#1A2240"
+        android:background="#FFFFFF"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/navigationGame"
+        app:layout_constraintBottom_toTopOf="@+id/game_nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +56,8 @@
             android:id="@+id/level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Level 00"
-            android:textColor="#FFFFFF"
+            android:text="Level 1"
+            android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/guideline4"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -69,8 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Stat #1"
-            android:textColor="#FFFFFF"
+            android:layout_marginBottom="1dp"
+            android:text="EXP"
+            android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/progressStat1"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -80,15 +83,15 @@
 
         <ProgressBar
             android:id="@+id/progressStat1"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:max="100"
             android:progress="60"
-            android:progressBackgroundTint="#FFFFFF"
+            android:progressBackgroundTint="#65FFF495"
             android:progressBackgroundTintMode="src_over"
-            android:progressTint="#4E65BF"
+            android:progressTint="#FFEB3B"
             android:progressTintMode="src_over"
             android:scaleY="5"
             app:layout_constraintBottom_toTopOf="@id/stat2"
@@ -102,8 +105,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Stat #2"
-            android:textColor="#FFFFFF"
+            android:layout_marginBottom="1dp"
+            android:text="LOVE"
+            android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/progressStat2"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -119,9 +123,9 @@
             android:layout_marginBottom="8dp"
             android:max="100"
             android:progress="20"
-            android:progressBackgroundTint="#FFFFFF"
+            android:progressBackgroundTint="#65FFF495"
             android:progressBackgroundTintMode="src_over"
-            android:progressTint="#4E65BF"
+            android:progressTint="#FFEB3B"
             android:progressTintMode="src_over"
             android:scaleY="5"
             app:layout_constraintBottom_toTopOf="@+id/stat3"
@@ -135,8 +139,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Stat #3"
-            android:textColor="#FFFFFF"
+            android:text="FULL"
+            android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/progressStat3"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -152,9 +156,9 @@
             android:layout_marginBottom="8dp"
             android:max="100"
             android:progress="40"
-            android:progressBackgroundTint="#FFFFFF"
+            android:progressBackgroundTint="#65FFF495"
             android:progressBackgroundTintMode="src_over"
-            android:progressTint="#4E65BF"
+            android:progressTint="#FFEB3B"
             android:progressTintMode="src_over"
             android:scaleY="5"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
@@ -168,21 +172,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="30dp" />
+            app:layout_constraintGuide_begin="20dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="30dp" />
+            app:layout_constraintGuide_end="20dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="30dp" />
+            app:layout_constraintGuide_begin="20dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
@@ -190,62 +194,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="30dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationGame"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#151B33"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameBackList">
-
-        <Button
-            android:id="@+id/game_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Home"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toStartOf="@+id/character"
-            app:layout_constraintStart_toStartOf="@+id/navigationGame"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-        <Button
-            android:id="@+id/character"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Character"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toStartOf="@+id/background"
-            app:layout_constraintStart_toEndOf="@+id/game_home"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-        <Button
-            android:id="@+id/background"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Background"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toStartOf="@+id/store"
-            app:layout_constraintStart_toEndOf="@+id/character"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-        <Button
-            android:id="@+id/store"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Store"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toEndOf="@+id/navigationGame"
-            app:layout_constraintStart_toEndOf="@id/background"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

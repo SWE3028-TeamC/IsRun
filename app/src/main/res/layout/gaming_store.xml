@@ -11,66 +11,20 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#1A2240"
-        app:layout_constraintBottom_toTopOf="@+id/navigationGame"
+        app:layout_constraintBottom_toTopOf="@+id/game_nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationGame"
-        android:layout_width="match_parent"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/game_nav_view"
+        android:layout_width="0dp"
         android:layout_height="70dp"
-        android:background="#151B33"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/game_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Home"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toStartOf="@+id/character"
-            app:layout_constraintStart_toStartOf="@+id/navigationGame"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-        <Button
-            android:id="@+id/character"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Character"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toStartOf="@+id/background"
-            app:layout_constraintStart_toEndOf="@+id/game_home"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-        <Button
-            android:id="@+id/background"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Background"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toStartOf="@+id/store"
-            app:layout_constraintStart_toEndOf="@+id/character"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-        <Button
-            android:id="@+id/store"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Store"
-            app:layout_constraintBottom_toBottomOf="@+id/navigationGame"
-            app:layout_constraintEnd_toEndOf="@+id/navigationGame"
-            app:layout_constraintStart_toEndOf="@id/background"
-            app:layout_constraintTop_toTopOf="@+id/navigationGame" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_game_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
