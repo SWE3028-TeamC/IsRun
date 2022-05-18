@@ -1,6 +1,5 @@
 package edu.skku.cs.isrun;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -64,21 +63,65 @@ public class BackFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_back, container, false);
         ImageView img = v.findViewById(R.id.gameBackground);
 
-        ImageView img1 = v.findViewById(R.id.imageView12);
+        ImageView img1 = v.findViewById(R.id.poster_1);
         img1.setOnClickListener(view-> {
             img.setImageResource(R.drawable.image_2);
         });
-        ImageView img2 = v.findViewById(R.id.imageView10);
+        ImageView img2 = v.findViewById(R.id.poster_2);
         img2.setOnClickListener(view-> {
             img.setImageResource(R.drawable.bg1);
         });
-        ImageView img3 = v.findViewById(R.id.imageView11);
+        ImageView img3 = v.findViewById(R.id.poster_3);
         img3.setOnClickListener(view-> {
             img.setImageResource(R.drawable.bg2);
         });
-        ImageView img4 = v.findViewById(R.id.imageView13);
+        ImageView img4 = v.findViewById(R.id.poster_4);
         img4.setOnClickListener(view-> {
-            img.setImageResource(R.drawable.roof);
+            img.setImageResource(R.drawable.bg3);
+        });
+        ImageView img5 = v.findViewById(R.id.poster_5);
+        img5.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg4);
+        });
+        ImageView img6 = v.findViewById(R.id.poster_6);
+        img6.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg5);
+        });
+        ImageView img7 = v.findViewById(R.id.poster_7);
+        img7.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg6);
+        });
+        ImageView img8 = v.findViewById(R.id.poster_8);
+        img8.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg7);
+        });
+        ImageView img9 = v.findViewById(R.id.poster_9);
+        img9.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg8);
+        });
+        ImageView img10 = v.findViewById(R.id.poster_10);
+        img10.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg9);
+        });
+        ImageView img11 = v.findViewById(R.id.poster_11);
+        img11.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg10);
+        });
+        ImageView img12 = v.findViewById(R.id.poster_12);
+        img12.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg11);
+        });
+        ImageView img13 = v.findViewById(R.id.poster_13);
+        img13.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg12);
+        });
+        ImageView img14 = v.findViewById(R.id.poster_14);
+        img14.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg13);
+        });
+        ImageView img15 = v.findViewById(R.id.poster_15);
+        img15.setOnClickListener(view-> {
+            img.setImageResource(R.drawable.bg14);
         });
 
         return v;

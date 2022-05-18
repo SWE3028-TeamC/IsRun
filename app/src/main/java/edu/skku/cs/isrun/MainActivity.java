@@ -1,6 +1,7 @@
 package edu.skku.cs.isrun;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -24,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
+        ActionBar actb = getSupportActionBar();
+        actb.hide();
         nv=findViewById(R.id.game_nav_view);
         charFragment =  new CharFragment();
         homeFragment =  new HomeFragment();
