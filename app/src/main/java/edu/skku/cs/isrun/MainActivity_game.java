@@ -39,7 +39,14 @@ public class MainActivity_game extends AppCompatActivity {
             userdata_game.setMainchar(charr);
         }
     }
+    public void getitems (int feed, int play) {
+        if (feed==1) {
+            userdata_game.Feed();
+        }
+        if (play==1) {
 
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

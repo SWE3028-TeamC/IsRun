@@ -34,6 +34,7 @@ public class UserData_game {
         this.food = food;
     }
 
+    public void Feed() { this.food -=1; }
     public int getGold() {
         return gold;
     }
