@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,36 +129,19 @@ public class CharFragment extends Fragment {
         characterlist = new ArrayList<charpopup>();
         plate = v.findViewById(R.id.grid);
 
+        Bundle bundle = getArguments();
+        int[] chchange = bundle.getIntArray("characters");
 
-        charset("cat","KITTY",1,"This is a kitty");
-        charset("dog","DOGGY",1, "This is dog");
-        charset("hamster","HAMMY",1,"This is a hamster");
+        for (int i:chchange) {
+            System.out.println(i);
+        }
+        if (Arrays.stream(chchange).anyMatch(a->a==0))
+            charset("cat","KITTY",1,"This is a kitty");
+        if (Arrays.stream(chchange).anyMatch(a->a==1))
+            charset("dog","DOGGY",1, "This is dog");
+        if (Arrays.stream(chchange).anyMatch(a->a==2))
+            charset("hamster","HAMMY",1,"This is a hamster");
 
-        /*charpopup ch1;
-        ch1 = new charpopup();
-
-        int resid ;
-        resid = getResources().getIdentifier("cat","drawable",this.getActivity().getPackageName());
-        ch1.setImg("cat");
-        ch1.setLevel(1);
-        ch1.setName("KITTY");
-        ch1.setResID(resid);
-        characterlist.add(ch1);
-        ch1 = new charpopup();
-        resid = getResources().getIdentifier("dog","drawable",this.getActivity().getPackageName());
-        ch1.setImg("dog");
-        ch1.setLevel(1);
-        ch1.setName("DOGGY");
-        ch1.setResID(resid);
-        characterlist.add(ch1);
-        ch1 = new charpopup();
-        resid = getResources().getIdentifier("hamster","drawable",this.getActivity().getPackageName());
-        ch1.setImg("hamster");
-        ch1.setLevel(1);
-        ch1.setName("HAMMY");
-        ch1.setResID(resid);
-        characterlist.add(ch1);
-*/
 
         gridViewAdapter = new GridViewAdapter(getContext(),characterlist);
         plate.setAdapter(gridViewAdapter);

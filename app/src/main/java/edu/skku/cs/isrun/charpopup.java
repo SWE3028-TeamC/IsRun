@@ -4,9 +4,13 @@ package edu.skku.cs.isrun;
 
 public class charpopup{
 
+    private int charidx;
     private String name;
     private String img;
     private int level;
+    private int exp;
+    private int love;
+    private int full;
     private int resID;
     private String talk;
 
