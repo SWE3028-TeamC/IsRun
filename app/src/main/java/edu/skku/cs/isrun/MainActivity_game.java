@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity_game extends AppCompatActivity {
     ImageView ch;
     ImageView bg;
     NavigationBarView nv;

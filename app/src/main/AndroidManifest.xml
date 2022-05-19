@@ -11,7 +11,7 @@
         android:theme="@style/Theme.IsRun">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity_game"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

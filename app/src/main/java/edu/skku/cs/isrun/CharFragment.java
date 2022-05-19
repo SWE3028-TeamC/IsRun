@@ -11,13 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -108,7 +104,7 @@ public class CharFragment extends Fragment {
         builder.setNegativeButton("SET", new DialogInterface.OnClickListener() {
             @Override public void onClick(DialogInterface dialog, int which) {
                 if(dialog != null) {
-                    ((MainActivity)getActivity()).gett("NONE",img);
+                    ((MainActivity_game)getActivity()).gett("NONE",img);
                     dialog.dismiss();
                 }
             }
