@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,16 +96,14 @@ public class HomeFragment extends Fragment {
             response.setImageResource(resid);
 
             // 버그 있음
-            new Thread (() -> {
-                try{
-                    Thread.sleep(1000);
-                    response.setVisibility(View.INVISIBLE);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
                     ch.setVisibility(View.VISIBLE);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    response.setVisibility(View.INVISIBLE);
                 }
-            }).start();
-
+            },1000);
         });
 
 
