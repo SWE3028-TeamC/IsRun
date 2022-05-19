@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,23 +67,47 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ImageView ch= (ImageView) v.findViewById(R.id.gameCharacter);;
-        ImageView bg= (ImageView) v.findViewById(R.id.gameBackground);;
+        ImageView ch= (ImageView) v.findViewById(R.id.gameCharacter);
+        ImageView bg= (ImageView) v.findViewById(R.id.gameBackground);
+        ImageView response = (ImageView) v.findViewById(R.id.imageView6);
+        response.setVisibility(View.INVISIBLE);
+        FloatingActionButton btn_food = v.findViewById(R.id.foodbutton);
+        FloatingActionButton btn_play = v.findViewById(R.id.playbutton);
 
-        try {
-            Glide.with(this).load(R.raw.hamster).into(ch);
-            bg.setImageResource(R.drawable.bg1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+
 
         Bundle bundle = getArguments();
         String bgchange = bundle.getString("background"); // 프래그먼트1에서 받아온 값 넣기
+
+
         if (!(bgchange.equals("NONE"))) {
             int resid = getResources().getIdentifier(bgchange, "drawable", this.getActivity().getPackageName());
             bg.setImageResource(resid);
         }
         String chchange = bundle.getString("character"); // 프래그먼트1에서 받아온 값 넣기
+
+        btn_food.setOnClickListener(view-> {
+            ch.setVisibility(View.INVISIBLE);
+            response.setVisibility(View.VISIBLE);
+            int resid = getResources().getIdentifier(chchange+"_f", "drawable",getContext().getPackageName());
+            response.setImageResource(resid);
+
+            // 버그 있음
+            new Thread (() -> {
+                try{
+                    Thread.sleep(1000);
+                    response.setVisibility(View.INVISIBLE);
+                    ch.setVisibility(View.VISIBLE);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        });
+
+
         if (!(chchange.equals("NONE"))) {
             if (chchange.equals("hamster")) {
                 try {
@@ -100,6 +126,34 @@ public class HomeFragment extends Fragment {
             else if (chchange.equals("cat")) {
                 try {
                     Glide.with(this).load(R.raw.cat).into(ch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (chchange.equals("parrot")) {
+                try {
+                    Glide.with(this).load(R.raw.parrot).into(ch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (chchange.equals("lion")) {
+                try {
+                    Glide.with(this).load(R.raw.lion).into(ch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (chchange.equals("seal")) {
+                try {
+                    Glide.with(this).load(R.raw.seal).into(ch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (chchange.equals("shiba")) {
+                try {
+                    Glide.with(this).load(R.raw.shiba).into(ch);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -58,15 +59,13 @@ public class MainActivity_game extends AppCompatActivity {
 
 
         userdata_game.setUserid("aaaa11");
-        int[] temp = {0,1};
+        int[] temp = {0,1,2,3,4,5,6};
         userdata_game.setCharacter_list(temp);
         userdata_game.setFood(5);
         userdata_game.setGold(10);
-        userdata_game.setPoster_list(new int[]{0,3,4,5,8,9,10});
+        userdata_game.setPoster_list(new int[]{0,1,2,3,4,5,8,9,10,11,12,13,14});
         userdata_game.setMainchar("dog");
         userdata_game.setMainposter("image_2");
-
-
 
 
 

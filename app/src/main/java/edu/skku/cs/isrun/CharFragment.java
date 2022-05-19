@@ -137,7 +137,14 @@ public class CharFragment extends Fragment {
             charset("dog","DOGGY",1, "This is dog");
         if (Arrays.stream(chchange).anyMatch(a->a==2))
             charset("hamster","HAMMY",1,"This is a hamster");
-
+        if (Arrays.stream(chchange).anyMatch(a->a==3))
+            charset("parrot","PAROO",1,"This is a parrot");
+        if (Arrays.stream(chchange).anyMatch(a->a==4))
+            charset("lion","LIOON",1,"This is a lion");
+        if (Arrays.stream(chchange).anyMatch(a->a==5))
+            charset("seal","SEALLY",1,"This is a seal");
+        if (Arrays.stream(chchange).anyMatch(a->a==6))
+            charset("shiba","SSIBA",1,"This is a shiba");
 
         gridViewAdapter = new GridViewAdapter(getContext(),characterlist);
         plate.setAdapter(gridViewAdapter);
