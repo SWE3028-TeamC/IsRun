@@ -4,9 +4,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +64,58 @@ public class StorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stor, container, false);
+        View v = inflater.inflate(R.layout.fragment_stor, container, false);
+
+        ImageView char_draw = v.findViewById(R.id.Stor_char);
+        Glide.with(this).load(R.raw.char_draw).into(char_draw);
+        ImageView back_draw = v.findViewById(R.id.Stor_back);
+        Glide.with(this).load(R.raw.back_draw).into(back_draw);
+
+        Button charbtn = v.findViewById(R.id.charbtn);
+        Button backbtn = v.findViewById(R.id.backbtn);
+        ImageView random = v.findViewById(R.id.random);
+
+        charbtn.setOnClickListener(view-> {
+            if (((MainActivity_game)getActivity()).getitems(0,0,100)==1) {
+                random.setVisibility(View.VISIBLE);
+                random.bringToFront();
+                Glide.with(this).load(R.raw.rollcat).into(random);
+                backbtn.setVisibility(View.INVISIBLE);
+                charbtn.setVisibility(View.INVISIBLE);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        random.setVisibility(View.INVISIBLE);
+                        backbtn.setVisibility(View.VISIBLE);
+                        charbtn.setVisibility(View.VISIBLE);
+                    }
+                }, 3000);
+            }
+        });
+
+        backbtn.setOnClickListener(view-> {
+            if (((MainActivity_game)getActivity()).getitems(0,0,50)==1) {
+                random.setVisibility(View.VISIBLE);
+                random.bringToFront();
+                Glide.with(this).load(R.raw.rollrac).into(random);
+                backbtn.setVisibility(View.INVISIBLE);
+                charbtn.setVisibility(View.INVISIBLE);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        random.setVisibility(View.INVISIBLE);
+                        backbtn.setVisibility(View.VISIBLE);
+                        charbtn.setVisibility(View.VISIBLE);
+                    }
+                }, 3000);
+            }
+        });
+
+
+        return v;
     }
 }

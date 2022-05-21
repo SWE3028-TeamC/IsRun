@@ -39,13 +39,35 @@ public class MainActivity_game extends AppCompatActivity {
             userdata_game.setMainchar(charr);
         }
     }
-    public void getitems (int feed, int play) {
+    public int getitems (int feed, int play, int gold) {
         if (feed==1) {
-            userdata_game.Feed();
+            System.out.println(userdata_game.getFood());
+            if (userdata_game.getFood()<1) {
+                Toast.makeText(this, "Not enough food!", Toast.LENGTH_SHORT).show();
+                return 0;
+            }
+            else {
+                userdata_game.Feed();
+                return 1;
+            }
         }
-        if (play==1) {
+        else if (play==1) {
+            return 0;
+        }
+        if (gold>0) {
+            if (userdata_game.getGold()>gold) {
+                int temp = userdata_game.getGold()-gold;
+                System.out.println(temp);
+                userdata_game.setGold(temp);
+                return 1;
+            }
+            else {
+                Toast.makeText(this, "Not enough gold!", Toast.LENGTH_SHORT).show();
+                return 1;
+            }
 
         }
+        return 0;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +88,11 @@ public class MainActivity_game extends AppCompatActivity {
 
 
         userdata_game.setUserid("aaaa11");
-        int[] temp = {0,1,2,3,4,5,6};
+        int[] temp = {0,1,4,5,6,7};
         userdata_game.setCharacter_list(temp);
         userdata_game.setFood(5);
-        userdata_game.setGold(10);
-        userdata_game.setPoster_list(new int[]{0,1,2,3,4,5,8,9,10,11,12,13,14});
+        userdata_game.setGold(1000);
+        userdata_game.setPoster_list(new int[]{0,3,4,5,8,9,10,11,12,13,14});
         userdata_game.setMainchar("dog");
         userdata_game.setMainposter("image_2");
 

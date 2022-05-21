@@ -90,12 +90,30 @@ public class HomeFragment extends Fragment {
         String chchange = bundle.getString("character"); // 프래그먼트1에서 받아온 값 넣기
 
         btn_food.setOnClickListener(view-> {
+            if (((MainActivity_game)getActivity()).getitems(1,0,0)==1) {
+                ch.setVisibility(View.INVISIBLE);
+                response.setVisibility(View.VISIBLE);
+                int resid = getResources().getIdentifier(chchange + "_f", "drawable", getContext().getPackageName());
+                response.setImageResource(resid);
+
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ch.setVisibility(View.VISIBLE);
+                        response.setVisibility(View.INVISIBLE);
+                    }
+                }, 1000);
+            }
+        });
+
+        btn_play.setOnClickListener(view-> {
             ch.setVisibility(View.INVISIBLE);
             response.setVisibility(View.VISIBLE);
-            int resid = getResources().getIdentifier(chchange+"_f", "drawable",getContext().getPackageName());
+            int resid = getResources().getIdentifier(chchange+"_p", "drawable",getContext().getPackageName());
             response.setImageResource(resid);
 
-            // 버그 있음
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -132,6 +150,13 @@ public class HomeFragment extends Fragment {
             else if (chchange.equals("parrot")) {
                 try {
                     Glide.with(this).load(R.raw.parrot).into(ch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (chchange.equals("bunny")) {
+                try {
+                    Glide.with(this).load(R.raw.bunny).into(ch);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
