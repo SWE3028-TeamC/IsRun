@@ -76,14 +76,13 @@ public class HomeFragment extends Fragment {
         FloatingActionButton btn_play = v.findViewById(R.id.playbutton);
 
 
-
-
-
         Bundle bundle = getArguments();
         String bgchange = bundle.getString("background"); // 프래그먼트1에서 받아온 값 넣기
 
-
-        if (!(bgchange.equals("NONE"))) {
+        if (bgchange.equals("bg0")) {
+            bg.setImageResource(R.drawable.image_2);
+        }
+        else if (!(bgchange.equals("NONE"))) {
             int resid = getResources().getIdentifier(bgchange, "drawable", this.getActivity().getPackageName());
             bg.setImageResource(resid);
         }

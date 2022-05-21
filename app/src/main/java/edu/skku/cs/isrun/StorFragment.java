@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,7 @@ public class StorFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int gold;
 
     public StorFragment() {
         // Required empty public constructor
@@ -76,6 +78,9 @@ public class StorFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_stor, container, false);
 
+        Bundle bundle = getArguments();
+        gold = bundle.getInt("gold"); // 프래그먼트1에서 받아온 값 넣기
+
         ImageView char_draw = v.findViewById(R.id.Stor_char);
         Glide.with(this).load(R.raw.char_draw).into(char_draw);
         ImageView back_draw = v.findViewById(R.id.Stor_back);
@@ -84,14 +89,18 @@ public class StorFragment extends Fragment {
         Button charbtn = v.findViewById(R.id.charbtn);
         Button backbtn = v.findViewById(R.id.backbtn);
         ImageView random = v.findViewById(R.id.random);
+        TextView gold_txt = v.findViewById(R.id.Stor_gold);
+        gold_txt.setText(""+gold);
 
         charbtn.setOnClickListener(view-> {
-            if (((MainActivity_game)getActivity()).getitems(0,0,100)==1) {
+            if (((MainActivity_game)getActivity()).getitems(0,0,100)!=0) {
+                gold-=100;
                 random.setVisibility(View.VISIBLE);
                 random.bringToFront();
                 Glide.with(this).load(R.raw.rollcat).into(random);
                 backbtn.setVisibility(View.INVISIBLE);
                 charbtn.setVisibility(View.INVISIBLE);
+                gold_txt.setText(""+gold);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
