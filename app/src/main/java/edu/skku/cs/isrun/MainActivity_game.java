@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,19 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity_game extends AppCompatActivity {
     ImageView ch;
@@ -26,6 +40,8 @@ public class MainActivity_game extends AppCompatActivity {
     StorFragment storFragment;
     String background="image_2";
     String character="cat";
+    private MqttAndroidClient mqttAndroidClient;
+
 
     // 서버
     // userdata받아오기.. food gold character landmark poster 등등
@@ -65,7 +81,6 @@ public class MainActivity_game extends AppCompatActivity {
                 Toast.makeText(this, "Not enough gold!", Toast.LENGTH_SHORT).show();
                 return 1;
             }
-
         }
         return 0;
     }
@@ -77,17 +92,56 @@ public class MainActivity_game extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
-
-
-
         // User initial data setup
         // 앱 실행시에 서버에서 받아오면 userdata_game에 모두 저장
         // 앱 실행중 값 업데이트시에 서버로 바로 보내기??? <-미구현
 
 
         userdata_game.setUserid("aaaa11");
+
+        // userchars test
+        // userdata(setCharacter_list) + appchars 전체캐릭터 + 전체 레벨데이터
+
+        final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
+
+        try
+        {
+            MqttClient client = new MqttClient(
+                    MQTT_BROKER_IP, //URI
+                    MqttClient.generateClientId(), //ClientId
+                    new MemoryPersistence());
+
+            client.connect();
+
+            client.setCallback(new MqttCallback() {
+
+                @Override
+                public void connectionLost(Throwable cause) { //Called when the client lost the connection to the broker
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken arg0) {
+                }
+
+                @Override
+                public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
+                    System.out.println(arg0 + ": " + arg1.toString());
+                    Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            String aa = "{\"UserId\":\"qwer1\"}";
+
+            client.subscribe("qwer1/#", 2);
+            client.publish("UserData/GetUserChars",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
+
+        }
+
+        catch (MqttException e) {
+            e.printStackTrace();
+        } //Persistence
+
+
+
         int[] temp = {0,1,4,5,6,7};
         userdata_game.setCharacter_list(temp);
         userdata_game.setFood(5);
