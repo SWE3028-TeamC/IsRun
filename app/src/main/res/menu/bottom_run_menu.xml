@@ -4,24 +4,24 @@
         android:id="@+id/running_home"
         android:enabled="true"
         android:icon="@drawable/ic_running_home_24"
-        android:title="Running Home"/>
+        android:title="Home"/>
 
     <item
         android:id="@+id/running_achievement"
         android:enabled="true"
         android:icon="@drawable/ic_running_achievement_24"
-        android:title="Achievements"/>
+        android:title="Achieve"/>
 
     <item
         android:id="@+id/running_record"
         android:enabled="true"
         android:icon="@drawable/ic_running_record_24"
-        android:title="Records"/>
+        android:title="Record"/>
 
     <item
         android:id="@+id/running_landmark"
         android:enabled="true"
         android:icon="@drawable/ic_running_landmark_24"
-        android:title="Landmarks"/>
+        android:title="Spot"/>
 
 </menu>
