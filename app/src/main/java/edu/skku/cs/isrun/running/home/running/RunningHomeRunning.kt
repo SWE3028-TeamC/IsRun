@@ -18,6 +18,7 @@ import android.widget.Chronometer.OnChronometerTickListener
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import edu.skku.cs.isrun.R
@@ -33,13 +34,13 @@ class RunningHomeRunning : Fragment() {
     private lateinit var myLocation:Location
     private var running:Boolean = false
     private var pauseOffset:Long = 0
-    private lateinit var viewModel: RunningHomeViewModel
 
     companion object {
         fun newInstance() = RunningHomeRunning()
     }
 
-//    private var viewModel: RunningHomeViewModel by navGraphViewModels(R.id.running_home)
+    private val viewModel: RunningHomeViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,14 +51,11 @@ class RunningHomeRunning : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[RunningHomeViewModel::class.java]
-        // TODO: Use the ViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRunButton(view)
-        viewModel = ViewModelProvider(this)[RunningHomeViewModel::class.java]
 
         val locationManger = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (this.context?.let {
@@ -129,7 +127,7 @@ class RunningHomeRunning : Fragment() {
     private var locationListener: LocationListener = object : LocationListener{
         override fun onLocationChanged(loc: Location) {
             myLocation = loc
-            Log.e("My location ","Longitude : ${loc.longitude}, Latitude ${loc.latitude}")
+            Log.e("My location ","Longitude : ${myLocation.longitude}, Latitude ${myLocation.latitude}")
         }
 
     }

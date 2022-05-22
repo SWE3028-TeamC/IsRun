@@ -25,13 +25,14 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:background="@color/white"
-        android:paddingTop="17dp"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
         android:drawableTop="@drawable/ic_baseline_videogame_asset_24"
-        app:layout_constraintStart_toStartOf="parent"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingTop="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_20percent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/run_nav_view"

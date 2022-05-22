@@ -6,6 +6,7 @@ import android.text.Layout
 import android.util.Base64
 import android.util.Log
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -17,16 +18,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kakao.util.maps.helper.Utility
 import edu.skku.cs.isrun.databinding.ActivityMainBinding
+import edu.skku.cs.isrun.running.home.RunningHomeViewModel
 import net.daum.mf.map.api.MapView
 import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val runViewModel: RunningHomeViewModel by viewModels()
     private val mode = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        runViewModel.RunningHomeViewModel()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         // Hiding action bar on the top
@@ -37,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
-            setOf(R.id.gaming_home ,R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark)
+            setOf(R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark)
         )
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
