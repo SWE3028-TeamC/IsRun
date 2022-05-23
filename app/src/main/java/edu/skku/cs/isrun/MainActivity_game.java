@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -74,31 +77,31 @@ public class MainActivity_game extends AppCompatActivity {
             case "bg1":
                 return 1;
             case "bg2":
-                return 3;
+                return 2;
             case "bg3":
-                return 4;
+                return 3;
             case "bg4":
-                return 5;
+                return 4;
             case "bg5":
-                return 6;
+                return 5;
             case "bg6":
-                return 7;
+                return 6;
             case "bg7":
-                return 8;
+                return 7;
             case "bg8":
-                return 9;
+                return 8;
             case "bg9":
-                return 10;
+                return 9;
             case "bg10":
-                return 11;
+                return 10;
             case "bg11":
-                return 12;
+                return 11;
             case "bg12":
-                return 13;
+                return 12;
             case "bg13":
-                return 14;
+                return 13;
             case "bg14":
-                return 15;
+                return 14;
         }
         return -1;
     }
@@ -107,6 +110,7 @@ public class MainActivity_game extends AppCompatActivity {
     // userdata받아오기.. food gold character landmark poster 등등
     //UserData_game userdata_game = new UserData_game();
     UserGameData userdata_game = new UserGameData();
+    UserGameData temp = new UserGameData();
     String response;
     public void gett (String back, String charr) {
         if (!(back.equals("NONE"))) {
@@ -174,28 +178,59 @@ public class MainActivity_game extends AppCompatActivity {
                     response = arg1.toString();
                     System.out.println(arg0 + ": " + arg1.toString());
                     Gson gson = new GsonBuilder().create();
-                    userdata_game = gson.fromJson(response, UserGameData.class);
-                    System.out.println(userdata_game.getMcharidx());
-                    System.out.println(userdata_game.getMposteridx());
-                    System.out.println(userdata_game.getFood());
-                    System.out.println(userdata_game.getGold());
-                    System.out.println(userdata_game.getUserid());
-                    client.disconnect();
+
+                    if (arg0.equals(uid+"/GetUserData")) {
+                        userdata_game = gson.fromJson(response, UserGameData.class);
+                        System.out.println(userdata_game.getMcharidx());
+                        System.out.println(userdata_game.getMposteridx());
+                        System.out.println(userdata_game.getFood());
+                        System.out.println(userdata_game.getGold());
+                        System.out.println(userdata_game.getUserid());
+                    }
+                    else if (arg0.equals(uid+"/GetUserChars")) {
+
+                        temp = gson.fromJson(response, UserGameData.class);
+                        userdata_game.setUserChars(temp.getUserChars());
+
+                        int[] b = new int[10];
+                        int c=0;
+                        for (InnerData i : temp.getUserChars()) {
+                            b[c]=i.getCharidx();
+                            c++;
+                        }
+                        userdata_game.setCharacter_list(b);
+                    }
+                    else if (arg0.equals(uid+"/GetUserPosters")) {
+
+                        temp = gson.fromJson(response, UserGameData.class);
+                        userdata_game.setUserPosters(temp.getUserPosters());
+
+                        int[] b = new int[20];
+                        int c=0;
+                        for (InnerData2 i : temp.getUserPosters()) {
+                            b[c]=i.getPosteridx();
+                            System.out.println(b[c]);
+                            c++;
+                        }
+                        userdata_game.setPoster_list(b);
+                    }
                 }
             });
             String aa = "{\"UserId\":\""+uid+"\"}";
 
             client.subscribe(uid+"/#", 2);
             client.publish("UserData/GetUserData",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-
+            client.publish("UserData/GetUserChars",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
+            client.publish("UserData/GetUserPosters",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
         }
+
         catch (MqttException e) {
             e.printStackTrace();
         } //Persistence
         setContentView(R.layout.activity_main);
 
         // 임시로 0설정, 콜에 mposteridx 추가되면 빼면됨
-        userdata_game.setMposteridx(0);
+        //userdata_game.setMposteridx(0);
 
         // User initial data setup
         // 앱 실행시에 서버에서 받아오면 userdata_game에 모두 저장
@@ -220,13 +255,23 @@ public class MainActivity_game extends AppCompatActivity {
         backFragment =  new BackFragment();
         storFragment =  new StorFragment();
 
+        ImageView loading = findViewById(R.id.imageView3);
+        Glide.with(this).load(R.raw.rollcat).into(loading);
+        loading.bringToFront();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
+                loading.setVisibility(View.INVISIBLE);
+                Bundle bundle = new Bundle();
+                bundle.putString("background", "bg"+userdata_game.getMposteridx());
+                bundle.putString("character", app_character_list[userdata_game.getMcharidx()]);
+                homeFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+            }
+        }, 2000);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("background", "bg"+userdata_game.getMposteridx());
-        bundle.putString("character", app_character_list[userdata_game.getMcharidx()]);
-        homeFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
         nv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

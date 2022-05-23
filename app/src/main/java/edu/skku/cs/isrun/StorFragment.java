@@ -163,12 +163,12 @@ public class StorFragment extends Fragment {
                     //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
-            String aa = "{\"UserId\":\"qwer1\"}";
-            String bb = "{\"UserId\": \"world\", \"charidx\": 1, \"charLV\": 2, \"charname\": \"kit\", \"charexp\": 10, \"charlove\": 1, \"charfull\": 1}";
+            String aa = "{\"UserId\":\"testid\"}";
+            String bb = "{\"UserId\": \"testid\", \"charidx\": 1, \"charLV\": 2, \"charname\": \"kit\", \"charexp\": 10, \"charlove\": 1, \"charfull\": 1}";
 
-            //client.subscribe("qwer1/#", 2);
-            //client.publish("UserData/GetUserChars",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-            client.publish("UserData/UpdateUserChar",new MqttMessage(bb.getBytes(StandardCharsets.UTF_8)));
+            client.subscribe("testid/#", 2);
+            client.publish("UserData/GetUserChars",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
+            //client.publish("UserData/UpdateUserChar",new MqttMessage(bb.getBytes(StandardCharsets.UTF_8)));
         }
 
         catch (MqttException e) {

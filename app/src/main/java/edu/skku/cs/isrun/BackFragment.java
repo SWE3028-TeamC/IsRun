@@ -132,6 +132,7 @@ public class BackFragment extends Fragment {
         Button btn = v.findViewById(R.id.set);
         btn.setOnClickListener(view-> {
             ((MainActivity_game)getActivity()).gett(change,"NONE");
+            System.out.println(change);
         });
         return v;
     }
