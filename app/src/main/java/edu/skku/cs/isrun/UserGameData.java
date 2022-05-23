@@ -10,11 +10,15 @@ public class UserGameData {
     private int mcharidx;
     private int mposteridx;
     public int a=0;
-    private InnerData UserChars[]=new InnerData[]{};
-    private InnerData2 UserPosters[]=new InnerData2[]{};
+    private InnerData UserChars[]=new InnerData[10];
+    private InnerData2 UserPosters[]=new InnerData2[20];
 
-    private int character_list[] = new int[]{};
-    private int poster_list[] = new int[] {0};
+    private int character_list[] = new int[10];
+    private int poster_list[] = new int[20];
+
+    public void addChar (InnerData newchar, int idx) {
+        this.UserChars[idx]=newchar;
+    }
 
     public InnerData[] getUserChars() {        return UserChars;    }
 

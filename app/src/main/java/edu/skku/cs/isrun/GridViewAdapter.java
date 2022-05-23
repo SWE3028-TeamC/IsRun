@@ -26,8 +26,12 @@ public class GridViewAdapter extends BaseAdapter {
     private String charimg;
     private int resID;
     private String memo;
+    private String info;
 
 
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
     GridViewAdapter (Context mContext, ArrayList<charpopup> chs) {
         this.mContext = mContext;
@@ -61,6 +65,7 @@ public class GridViewAdapter extends BaseAdapter {
     public String getMemo(int i) {
         return chs.get(i).getTalk();
     }
+    public String getInfo(int i) { return chs.get(i).getInfo(); }
 
 
     @Override

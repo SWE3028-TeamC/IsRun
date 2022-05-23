@@ -45,8 +45,8 @@ public class MainActivity_game extends AppCompatActivity {
     StorFragment storFragment;
     String background="image_2";
     String character="dog";
-
-    private String[] app_character_list = new String[]{"cat","dog","hamster","parrot","bunny","lion","seal","shiba"};
+    public String uid;
+    public String[] app_character_list = new String[]{"cat","dog","hamster","parrot","bunny","lion","seal","shiba"};
 
     public int convertChar(String str) {
         switch (str) {
@@ -109,7 +109,7 @@ public class MainActivity_game extends AppCompatActivity {
     // 서버
     // userdata받아오기.. food gold character landmark poster 등등
     //UserData_game userdata_game = new UserData_game();
-    UserGameData userdata_game = new UserGameData();
+    public UserGameData userdata_game = new UserGameData();
     UserGameData temp = new UserGameData();
     String response;
     public void gett (String back, String charr) {
@@ -136,7 +136,7 @@ public class MainActivity_game extends AppCompatActivity {
             return 0;
         }
         if (gold>0) {
-            if (userdata_game.getGold()>gold) {
+            if (userdata_game.getGold()>=gold) {
                 int temp = userdata_game.getGold()-gold;
                 System.out.println(temp);
                 userdata_game.setGold(temp);
@@ -149,12 +149,13 @@ public class MainActivity_game extends AppCompatActivity {
         }
         return 0;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        String uid = "testid";
+        uid = "testid";
 
         // userchars test
         // userdata(setCharacter_list) + appchars 전체캐릭터 + 전체 레벨데이터
@@ -190,10 +191,16 @@ public class MainActivity_game extends AppCompatActivity {
                     else if (arg0.equals(uid+"/GetUserChars")) {
 
                         temp = gson.fromJson(response, UserGameData.class);
-                        userdata_game.setUserChars(temp.getUserChars());
+                        InnerData[] a = new InnerData[10];
+                        int c=0;
+                        for (InnerData i : temp.getUserChars()) {
+                            a[c]=i;
+                            c++;
+                        }
+                        userdata_game.setUserChars(a);
 
                         int[] b = new int[10];
-                        int c=0;
+                        c=0;
                         for (InnerData i : temp.getUserChars()) {
                             b[c]=i.getCharidx();
                             c++;
@@ -203,10 +210,16 @@ public class MainActivity_game extends AppCompatActivity {
                     else if (arg0.equals(uid+"/GetUserPosters")) {
 
                         temp = gson.fromJson(response, UserGameData.class);
-                        userdata_game.setUserPosters(temp.getUserPosters());
+                        InnerData2[] a = new InnerData2[20];
+                        int c=0;
+                        for (InnerData2 i : temp.getUserPosters()) {
+                            a[c]=i;
+                            c++;
+                        }
+                        userdata_game.setUserPosters(a);
 
                         int[] b = new int[20];
-                        int c=0;
+                        c=0;
                         for (InnerData2 i : temp.getUserPosters()) {
                             b[c]=i.getPosteridx();
                             System.out.println(b[c]);
@@ -228,24 +241,6 @@ public class MainActivity_game extends AppCompatActivity {
             e.printStackTrace();
         } //Persistence
         setContentView(R.layout.activity_main);
-
-        // 임시로 0설정, 콜에 mposteridx 추가되면 빼면됨
-        //userdata_game.setMposteridx(0);
-
-        // User initial data setup
-        // 앱 실행시에 서버에서 받아오면 userdata_game에 모두 저장
-        // 앱 실행중 값 업데이트시에 서버로 바로 보내기??? <-미구현
-
-
-
-        /*int[] temp = {0,1,4,5,6,7};
-        userdata_game.setCharacter_list(temp);
-        userdata_game.setFood(5);
-        userdata_game.setGold(1000);
-        userdata_game.setPoster_list(new int[]{0,3,4,5,8,9,10,11,12,13,14});
-        userdata_game.setMainchar("dog");
-        userdata_game.setMainposter("image_2");
-        */
 
         ActionBar actb = getSupportActionBar();
         actb.hide();
@@ -291,6 +286,8 @@ public class MainActivity_game extends AppCompatActivity {
                     case R.id.gaming_store:
                         Bundle bundle3 = new Bundle();
                         bundle3.putInt("gold",userdata_game.getGold());
+                        bundle3.putIntArray("characters",userdata_game.getCharacter_list());
+                        bundle3.putIntArray("posters",userdata_game.getPoster_list());
                         storFragment.setArguments(bundle3);
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, storFragment).commit();
                         return true;

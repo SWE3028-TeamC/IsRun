@@ -13,6 +13,7 @@ public class charpopup{
     private int full;
     private int resID;
     private String talk;
+    private String info;
 
     public String getTalk() {
         return talk;
@@ -21,6 +22,10 @@ public class charpopup{
     public void setTalk(String talk) {
         this.talk = talk;
     }
+
+    public String getInfo() {        return info;    }
+
+    public void setInfo(String info) {        this.info = info;    }
 
     public int getResID() {
         return resID;

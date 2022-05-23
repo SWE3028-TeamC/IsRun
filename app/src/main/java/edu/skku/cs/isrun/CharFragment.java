@@ -69,28 +69,43 @@ public class CharFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    public void charset(String img, String name, int level, String talk) {
+    public void charset(String img, int idx, String talk) {
+        if (((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx]==null) {
+            return;
+        }
         charpopup chh;
         chh = new charpopup();
         int resid ;
         resid = getResources().getIdentifier(img,"drawable",this.getActivity().getPackageName());
+        String name;
+        if (((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx].getCharname()==null) {
+            name=((MainActivity_game)getActivity()).app_character_list[idx];
+        }
+        else {
+            name=((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx].getCharname();
+        }
+        int LV = ((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx].getCharLV();
+        String info = "Level: "+LV;
 
         chh.setImg(img);
-        chh.setLevel(level);
+        chh.setLevel(LV);
         chh.setName(name);
         chh.setResID(resid);
         chh.setTalk(talk);
+        chh.setInfo(info);
         characterlist.add(chh);
     }
-    public void popUpImg(int resId, String img, Context context, String memo) {
+    public void popUpImg(int resId, String img, Context context, String memo, String info) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.char_popup, null);
         ImageView imageView = view.findViewById(R.id.popup_img);
         TextView textView = view.findViewById(R.id.popup_txt);
+        TextView textView2 = view.findViewById(R.id.popup_memo);
 
         imageView.setImageResource(resId);
         textView.setText(memo);
+        textView2.setText(info);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view);
@@ -113,7 +128,6 @@ public class CharFragment extends Fragment {
         AlertDialog dialog;
         dialog = builder.create();
         dialog.show();
-
     }
 
 
@@ -128,25 +142,27 @@ public class CharFragment extends Fragment {
         Bundle bundle = getArguments();
         int[] chchange = bundle.getIntArray("characters");
 
-        for (int i:chchange) {
+        /*for (int i:chchange) {
             System.out.println(i);
         }
+
+         */
         if (Arrays.stream(chchange).anyMatch(a->a==0))
-            charset("cat","KITTY",1,"This is a kitty");
+            charset("cat",0,"Cat");
         if (Arrays.stream(chchange).anyMatch(a->a==1))
-            charset("dog","DOGGY",1, "This is dog");
+            charset("dog",1, "Dog");
         if (Arrays.stream(chchange).anyMatch(a->a==2))
-            charset("hamster","HAMMY",1,"This is a hamster");
+            charset("hamster",2,"Hamster");
         if (Arrays.stream(chchange).anyMatch(a->a==3))
-            charset("parrot","PAROO",1,"This is a parrot");
+            charset("parrot",3,"Parrot");
         if (Arrays.stream(chchange).anyMatch(a->a==4))
-            charset("bunny","BUNNY",1,"This is a bunny");
+            charset("bunny",4,"Bunny");
         if (Arrays.stream(chchange).anyMatch(a->a==5))
-            charset("lion","LIOON",1,"This is a lion");
+            charset("lion",5,"Lion");
         if (Arrays.stream(chchange).anyMatch(a->a==6))
-            charset("seal","SEALLY",1,"This is a seal");
+            charset("seal",6,"Seal");
         if (Arrays.stream(chchange).anyMatch(a->a==7))
-            charset("shiba","SSIBA",1,"This is a shiba");
+            charset("shiba",7,"Shiba");
 
         gridViewAdapter = new GridViewAdapter(getContext(),characterlist);
         plate.setAdapter(gridViewAdapter);
@@ -158,7 +174,7 @@ public class CharFragment extends Fragment {
                 int resid = (Integer)gridViewAdapter.getResID(position);
 
                 System.out.println(charimg+resid);
-                popUpImg(resid,charimg,getContext(),gridViewAdapter.getMemo(position));
+                popUpImg(resid,charimg,getContext(),gridViewAdapter.getMemo(position),gridViewAdapter.getInfo(position));
                 //Toast.makeText(getContext(), charname, Toast.LENGTH_SHORT).show();
             }
         });
