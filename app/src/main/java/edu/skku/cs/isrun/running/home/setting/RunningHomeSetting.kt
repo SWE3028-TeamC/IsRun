@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import edu.skku.cs.isrun.R
 import edu.skku.cs.isrun.running.home.RunningHomeViewModel
+import java.text.DecimalFormat
 
 
 class RunningHomeSetting : Fragment() {
@@ -58,10 +59,10 @@ class RunningHomeSetting : Fragment() {
             recommendMode.isChecked = _rm_isChecked
         }
         val timeSetObserver = Observer<Double> { timeSet->
-            timeView.text = "Time(min) : $timeSet"
+            timeView.text = "Time(min) : ${DecimalFormat("#0.0").format(timeSet)}"
         }
         val distanceObserver = Observer<Double> { distanceSet->
-            distanceView.text = "Distance(km) : $distanceSet"
+            distanceView.text = "Distance(km) : ${DecimalFormat("##0.00").format(distanceSet)}"
         }
 
         viewModel.freeMode.observe(viewLifecycleOwner, freeModeObserver)

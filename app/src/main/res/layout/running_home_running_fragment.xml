@@ -97,7 +97,7 @@
         style="@style/title.mid.end"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="0.00 km/min"
+        android:text="0s/km"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/paceRow"
         app:layout_constraintTop_toTopOf="@+id/paceRow" />

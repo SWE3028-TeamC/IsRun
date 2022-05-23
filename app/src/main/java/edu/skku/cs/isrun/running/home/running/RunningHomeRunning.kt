@@ -25,6 +25,7 @@ import androidx.navigation.Navigation
 import com.google.android.gms.location.*
 import edu.skku.cs.isrun.R
 import edu.skku.cs.isrun.running.home.RunningHomeViewModel
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +34,6 @@ class RunningHomeRunning : Fragment(){
 
     private val TAG_CODE_PERMISSION_LOCATION = 1
     private var time:Long = 0
-    private var distance:Double = 0.0
     private var longitude:Double = 0.0
     private var latitude:Double = 0.0
     private var running:Boolean = true
@@ -46,6 +46,7 @@ class RunningHomeRunning : Fragment(){
 
     private lateinit var distanceView: TextView
     private lateinit var averagePace: TextView
+    private lateinit var percent: TextView
     private lateinit var client:FusedLocationProviderClient
     private lateinit var locationCallback:LocationCallback
     private val viewModel: RunningHomeViewModel by activityViewModels()
@@ -65,17 +66,17 @@ class RunningHomeRunning : Fragment(){
     @SuppressLint("SetTextI18n", "UseSwitchCompatOrMaterialCode")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setRunButton(view)
 
         val goal_time = view.findViewById<TextView>(R.id.goal_time)
         val goal_distance = view.findViewById<TextView>(R.id.goal_distance)
-        distanceView = view.findViewById<TextView>(R.id.total_distance)
-        averagePace = view.findViewById<TextView>(R.id.average_pace)
+        distanceView = view.findViewById(R.id.total_distance)
+        averagePace = view.findViewById(R.id.average_pace)
+        percent = view.findViewById(R.id.percent)
         val chronometer:Chronometer = view.findViewById(R.id.total_time)
         val start_pauseBtn:Button = view.findViewById(R.id.start_pauseBtn)
 
         val distanceObserver = Observer<Double> { distance ->
-            distanceView.text = "$distance m"
+            distanceView.text = "${DecimalFormat("####0.0").format(distance)} m"
         }
 
         viewModel.distance.observe(viewLifecycleOwner, distanceObserver)
@@ -114,8 +115,8 @@ class RunningHomeRunning : Fragment(){
             Log.e("SecurityException","$e")
         }
 
-        goal_time.text = viewModel.toStringtime()
-        goal_distance.text = viewModel.toStringdistance()
+        goal_time.text = viewModel.toStringtimeSet()
+        goal_distance.text = viewModel.toStringdistanceSet()
 
         chronometer.onChronometerTickListener = OnChronometerTickListener { cArg ->
             time = SystemClock.elapsedRealtime() - cArg.base
@@ -144,6 +145,13 @@ class RunningHomeRunning : Fragment(){
         chronometer.base = SystemClock.elapsedRealtime() - pauseOffset
         chronometer.start()
         running = true
+
+
+        val navController = Navigation.findNavController(view)
+        view.findViewById<Button>(R.id.finishBtn).setOnClickListener {
+            client.removeLocationUpdates(locationCallback)
+            navController.navigate(R.id.action_running_home_running_to_running_home_result)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -178,25 +186,26 @@ class RunningHomeRunning : Fragment(){
                     if( location != null){
                         longitude = location.longitude
                         latitude = location.latitude
-//                         averagePace.text = "$latitude"
                         timeStamp = getCurrentTimeStamp()!!
                         Log.e("My location ","Longitude : ${location.longitude}, Latitude ${location.latitude}")
                     }
+
                     val locationRequest = LocationRequest.create()
                     locationRequest.run {
                         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
                         interval = 1000
                     }
-
                     locationCallback = object: LocationCallback() {
+                        @SuppressLint("SetTextI18n")
                         override fun onLocationResult(locationResult: LocationResult) {
                             val loc_inCallback = locationResult.lastLocation
-                            distance += viewModel.getGPSDistance(latitude, longitude, loc_inCallback.latitude, loc_inCallback.longitude)
+                            val distance = viewModel.getGPSDistance(latitude, longitude, loc_inCallback.latitude, loc_inCallback.longitude)
                             longitude = loc_inCallback.longitude
                             latitude = loc_inCallback.latitude
-//                             averagePace.text = "$latitude"
+                            averagePace.text = viewModel.getPace()
+                            percent.text = "${DecimalFormat("##0.00").format(viewModel.getPercent())} %"
                             timeStamp = getCurrentTimeStamp()!!
-                            Log.e("My location ","Time : $timeStamp, Longitude : ${loc_inCallback.longitude}, Latitude ${loc_inCallback.latitude}, Distance : $distance")
+                            Log.e("My location ","Time : $timeStamp, Longitude : ${loc_inCallback.longitude}, Latitude ${loc_inCallback.latitude}, Distance Moved : $distance")
 
                         }
                     }
@@ -223,12 +232,5 @@ class RunningHomeRunning : Fragment(){
         }
     }
 
-    // function for setting run button to next navigation
-    private fun setRunButton(view: View) {
-        val navController = Navigation.findNavController(view)
-        view.findViewById<Button>(R.id.finishBtn).setOnClickListener {
-            navController.navigate(R.id.action_running_home_running_to_running_home_result)
-        }
-    }
 }
 
