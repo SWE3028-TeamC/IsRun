@@ -11,9 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +42,11 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    int lev;
+    int ful;
+    int lov;
+    int exp;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,12 +78,63 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    private void mqttgoget (String aa, String topic) {
+        final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
+        try
+        {
+            MqttClient client = new MqttClient(
+                    MQTT_BROKER_IP, //URI
+                    MqttClient.generateClientId(), //ClientId
+                    new MemoryPersistence());
+            client.connect();
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) { //Called when the client lost the connection to the broker
+                }
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken arg0) {                }
+                @Override
+                public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
+                    System.out.println(arg0 + ": " + arg1.toString());
+                    //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            client.subscribe(((MainActivity_game)getActivity()).uid+"/#", 2);
+            client.publish(topic,new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
 
+        }
+
+        catch (MqttException e) {
+            e.printStackTrace();
+        } //Persistence
+    }
+    public int[] maxlov = new int[]{5,10,10,20,20};
+    public int[] maxful = new int[]{5,10,10,20,20};
+    public int[] maxexp = new int[]{5,10,20,30,40};
+
+    public int charstat(int level,int mcharidx, int exp, int lov, int ful) {
+        int lev = level;
+        if (exp==maxexp[level]) {
+            lev++;
+            exp=0;
+        }
+        String aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\",\"charidx\":"+mcharidx+",\"charLV\": "+lev+",\"charexp\": "+exp+", \"charlove\": "+lov+", \"charfull\": "+ful+"}";
+        mqttgoget(aa,"UserData/UpdateUserChar");
+
+        return lev;
+    }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        UserGameData userdata = ((MainActivity_game)getActivity()).userdata_game;
+
+        lev = userdata.getUserChars()[userdata.getMcharidx()].getCharLV();
+        lov = userdata.getUserChars()[userdata.getMcharidx()].getCharlove();
+        exp = userdata.getUserChars()[userdata.getMcharidx()].getCharexp();
+        ful = userdata.getUserChars()[userdata.getMcharidx()].getCharfull();
+        int idx = userdata.getMcharidx();
 
         ImageView ch= (ImageView) v.findViewById(R.id.gameCharacter);
         ImageView bg= (ImageView) v.findViewById(R.id.gameBackground);
@@ -74,6 +142,17 @@ public class HomeFragment extends Fragment {
         response.setVisibility(View.INVISIBLE);
         FloatingActionButton btn_food = v.findViewById(R.id.foodbutton);
         FloatingActionButton btn_play = v.findViewById(R.id.playbutton);
+        TextView level = (TextView)v.findViewById(R.id.level);
+        level.setText("Level "+lev);
+        ProgressBar expbar = (ProgressBar) v.findViewById(R.id.progressStat1);
+        ProgressBar lovbar = (ProgressBar) v.findViewById(R.id.progressStat2);
+        ProgressBar fulbar = (ProgressBar) v.findViewById(R.id.progressStat3);
+        expbar.setMax(maxexp[lev]);
+        lovbar.setMax(maxlov[lev]);
+        fulbar.setMax(maxful[lev]);
+        expbar.setProgress(exp,true);
+        lovbar.setProgress(lov,true);
+        fulbar.setProgress(ful,true);
 
 
         Bundle bundle = getArguments();
@@ -88,14 +167,18 @@ public class HomeFragment extends Fragment {
         }
         String chchange = bundle.getString("character"); // 프래그먼트1에서 받아온 값 넣기
 
+
         btn_food.setOnClickListener(view-> {
-            if (((MainActivity_game)getActivity()).getitems(1,0,0)==1) {
+            if (ful==maxful[lev] || lev>3) {
+                System.out.println("full");
+            }
+            else if (((MainActivity_game)getActivity()).getitems(1,0,0)==1) {
                 ch.setVisibility(View.INVISIBLE);
                 response.setVisibility(View.VISIBLE);
                 int resid = getResources().getIdentifier(chchange + "_f", "drawable", getContext().getPackageName());
                 response.setImageResource(resid);
-
-
+                ful+=1;
+                exp+=1;
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -104,15 +187,32 @@ public class HomeFragment extends Fragment {
                         response.setVisibility(View.INVISIBLE);
                     }
                 }, 1000);
+                int newlevel = charstat(lev,idx, exp,lov,ful);
+                if (newlevel != lev) {
+                    lev = newlevel;
+                    exp=0;
+                    level.setText("Level "+lev);
+                    expbar.setMax(maxexp[lev]);
+                    lovbar.setMax(maxlov[lev]);
+                    fulbar.setMax(maxful[lev]);
+                }
+                expbar.setProgress(exp,true);
+
+                fulbar.setProgress(ful,true);
             }
         });
 
         btn_play.setOnClickListener(view-> {
+            if (lov>=maxlov[lev]) {
+                System.out.println("lovfull");
+            }
             ch.setVisibility(View.INVISIBLE);
             response.setVisibility(View.VISIBLE);
             int resid = getResources().getIdentifier(chchange+"_p", "drawable",getContext().getPackageName());
             response.setImageResource(resid);
-
+            lov++;
+            charstat(lev,idx, exp,lov,ful);
+            lovbar.setProgress(lov,true);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override

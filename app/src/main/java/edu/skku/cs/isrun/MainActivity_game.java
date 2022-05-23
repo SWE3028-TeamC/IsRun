@@ -285,6 +285,16 @@ public class MainActivity_game extends AppCompatActivity {
         backFragment =  new BackFragment();
         storFragment =  new StorFragment();
 
+        /*for (int ii=0;ii<10;ii++) {
+            System.out.print(userdata_game.getUserChars()[ii].getCharidx()+" ");
+            System.out.print(userdata_game.getUserChars()[ii].getCharname()+" ");
+            System.out.print(userdata_game.getUserChars()[ii].getCharLV()+" ");
+            System.out.print(userdata_game.getUserChars()[ii].getCharexp()+" ");
+            System.out.print(userdata_game.getUserChars()[ii].getCharlove()+" ");
+            System.out.println(userdata_game.getUserChars()[ii].getCharfull()+" ");
+        }
+
+         */
 
         nv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
