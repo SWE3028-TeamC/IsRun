@@ -128,6 +128,7 @@ public class StorFragment extends Fragment {
 
                 String aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\",\"charidx\":"+rn+",\"charLV\": 0, \"charexp\": 0, \"charlove\": 0, \"charfull\": 0}";
                 System.out.println("aa:"+aa);
+                //((MainActivity_game)getActivity()).mqttgoget(aa,"UserData/NewUserChar");
                 final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
                 try
                 {
