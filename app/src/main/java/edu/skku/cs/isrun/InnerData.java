@@ -2,7 +2,7 @@ package edu.skku.cs.isrun;
 
 public class InnerData {
     private String id;
-    private int charidx;
+    private int charidx=0;
     private int charLV=1;
     private String charname;
     private int charexp=0;

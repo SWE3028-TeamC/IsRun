@@ -183,20 +183,37 @@ public class MainActivity_game extends AppCompatActivity {
 
                         temp = gson.fromJson(response, UserGameData.class);
                         InnerData[] a = new InnerData[10];
+                        InnerData t = new InnerData();
                         int c=0;
-                        for (InnerData i : temp.getUserChars()) {
-                            a[c]=i;
-                            c++;
-                        }
-                        userdata_game.setUserChars(a);
 
                         int[] b = new int[10];
                         c=0;
                         for (InnerData i : temp.getUserChars()) {
-                            b[c]=i.getCharidx();
+                            b[i.getCharidx()]=i.getCharidx();
                             c++;
                         }
                         userdata_game.setCharacter_list(b);
+
+                        for (int i=0;i<10;i++) {
+                            System.out.println(userdata_game.getCharacter_list()[i]);
+                        }
+                        c=0;
+                        int k=1;
+                        for (int kk:userdata_game.getCharacter_list()) {
+                            System.out.println(kk+":"+c);
+                            if (kk==0)
+                                a[c]=t;
+                            else{
+                                a[c] = temp.getUserChars()[k];
+                                k++;
+                            }
+                            c++;
+                        }
+                        a[0] = temp.getUserChars()[0];
+                        userdata_game.setUserChars(a);
+                        for (int i=0;i<10;i++) {
+                            System.out.println(userdata_game.getUserChars()[i].getCharidx());
+                        }
                     }
                     else if (arg0.equals(uid+"/GetUserPosters")) {
 
@@ -223,10 +240,7 @@ public class MainActivity_game extends AppCompatActivity {
             });
             client.subscribe(uid+"/#", 2);
             client.publish(topic,new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-            client.publish(topic,new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-            client.publish(topic,new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
         }
-
         catch (MqttException e) {
             e.printStackTrace();
         } //Persistence
@@ -235,107 +249,8 @@ public class MainActivity_game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        uid = "testid";
-        String aa = "{\"UserId\":\""+uid+"\"}";
-        mqttgoget(aa,"UserData/GetUserData");
-        mqttgoget(aa,"UserData/GetUserChars");
-        mqttgoget(aa,"UserData/GetUserPosters");
-
-        // userchars test
-        // userdata(setCharacter_list) + appchars 전체캐릭터 + 전체 레벨데이터
-        /*final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
-        try
-        {
-            MqttClient client = new MqttClient(
-                    MQTT_BROKER_IP, //URI
-                    MqttClient.generateClientId(), //ClientId
-                    new MemoryPersistence());
-            client.connect();
-            client.setCallback(new MqttCallback() {
-                @Override
-                public void connectionLost(Throwable cause) { //Called when the client lost the connection to the broker
-                }
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken arg0) {
-                }
-                @Override
-                public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
-                    response = arg1.toString();
-                    System.out.println(arg0 + ": " + arg1.toString());
-                    Gson gson = new GsonBuilder().create();
-
-                    if (arg0.equals(uid+"/GetUserData")) {
-                        userdata_game = gson.fromJson(response, UserGameData.class);
-                        System.out.println(userdata_game.getMcharidx());
-                        System.out.println(userdata_game.getMposteridx());
-                        System.out.println(userdata_game.getFood());
-                        System.out.println(userdata_game.getGold());
-                        System.out.println(userdata_game.getUserid());
-                    }
-                    else if (arg0.equals(uid+"/GetUserChars")) {
-
-                        temp = gson.fromJson(response, UserGameData.class);
-                        InnerData[] a = new InnerData[10];
-                        int c=0;
-                        for (InnerData i : temp.getUserChars()) {
-                            a[c]=i;
-                            c++;
-                        }
-                        userdata_game.setUserChars(a);
-
-                        int[] b = new int[10];
-                        c=0;
-                        for (InnerData i : temp.getUserChars()) {
-                            b[c]=i.getCharidx();
-                            c++;
-                        }
-                        userdata_game.setCharacter_list(b);
-                    }
-                    else if (arg0.equals(uid+"/GetUserPosters")) {
-
-                        temp = gson.fromJson(response, UserGameData.class);
-                        InnerData2[] a = new InnerData2[20];
-                        int c=0;
-                        for (InnerData2 i : temp.getUserPosters()) {
-                            a[c]=i;
-                            c++;
-                        }
-                        userdata_game.setUserPosters(a);
-
-                        int[] b = new int[20];
-                        c=0;
-                        for (InnerData2 i : temp.getUserPosters()) {
-                            b[c]=i.getPosteridx();
-                            System.out.println(b[c]);
-                            c++;
-                        }
-                        userdata_game.setPoster_list(b);
-                    }
-                }
-            });
-            String aa = "{\"UserId\":\""+uid+"\"}";
-
-            client.subscribe(uid+"/#", 2);
-            client.publish("UserData/GetUserData",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-            client.publish("UserData/GetUserChars",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-            client.publish("UserData/GetUserPosters",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-        }
-
-        catch (MqttException e) {
-            e.printStackTrace();
-        } //Persistence
-
-         */
         setContentView(R.layout.activity_main);
 
-        ActionBar actb = getSupportActionBar();
-        actb.hide();
-        nv=findViewById(R.id.game_nav_view);
-        charFragment =  new CharFragment();
-        homeFragment =  new HomeFragment();
-        backFragment =  new BackFragment();
-        storFragment =  new StorFragment();
 
         ImageView loading = findViewById(R.id.imageView3);
         Glide.with(this).load(R.raw.rollcat).into(loading);
@@ -353,6 +268,23 @@ public class MainActivity_game extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
             }
         }, 2000);
+
+        uid = "testid";
+        String aa = "{\"UserId\":\""+uid+"\"}";
+        mqttgoget(aa,"UserData/GetUserData");
+        mqttgoget(aa,"UserData/GetUserChars");
+        mqttgoget(aa,"UserData/GetUserPosters");
+
+
+
+        ActionBar actb = getSupportActionBar();
+        actb.hide();
+        nv=findViewById(R.id.game_nav_view);
+        charFragment =  new CharFragment();
+        homeFragment =  new HomeFragment();
+        backFragment =  new BackFragment();
+        storFragment =  new StorFragment();
+
 
         nv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

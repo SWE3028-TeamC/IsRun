@@ -10,6 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**
@@ -79,6 +87,37 @@ public class BackFragment extends Fragment {
         }
         return ret;
     }
+    private void mqttgoget (String aa, String topic) {
+        final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
+        try
+        {
+            MqttClient client = new MqttClient(
+                    MQTT_BROKER_IP, //URI
+                    MqttClient.generateClientId(), //ClientId
+                    new MemoryPersistence());
+            client.connect();
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) { //Called when the client lost the connection to the broker
+                }
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken arg0) {                }
+                @Override
+                public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
+                    System.out.println(arg0 + ": " + arg1.toString());
+                    //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            client.subscribe(((MainActivity_game)getActivity()).uid+"/#", 2);
+            client.publish(topic,new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
+
+        }
+
+        catch (MqttException e) {
+            e.printStackTrace();
+        } //Persistence
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -132,6 +171,9 @@ public class BackFragment extends Fragment {
         Button btn = v.findViewById(R.id.set);
         btn.setOnClickListener(view-> {
             ((MainActivity_game)getActivity()).gett(change,"NONE");
+            String aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\"," +
+                    " \"mposteridx\":"+((MainActivity_game)getActivity()).convertPost(change)+"}";
+            mqttgoget(aa,"UserData/UpdateUserData");
             System.out.println(change);
         });
         return v;
