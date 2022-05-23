@@ -1,7 +1,6 @@
 package edu.skku.cs.isrun.running.home.setting
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,12 +10,9 @@ import android.widget.Button
 import android.widget.SeekBar
 import android.widget.Switch
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.navGraphViewModels
 import edu.skku.cs.isrun.R
 import edu.skku.cs.isrun.running.home.RunningHomeViewModel
 
@@ -73,7 +69,7 @@ class RunningHomeSetting : Fragment() {
         viewModel.timeSet.observe(viewLifecycleOwner,timeSetObserver)
         viewModel.distanceSet.observe(viewLifecycleOwner,distanceObserver)
 
-        setStartButton(view,viewModel)
+        setStartButton(view)
 
         recommendMode.setOnCheckedChangeListener{ _, isChecked ->
             viewModel.recommendMode.value = isChecked
@@ -138,7 +134,7 @@ class RunningHomeSetting : Fragment() {
     }
 
     // function for setting run button to next navigation
-    private fun setStartButton(view: View, viewModel: RunningHomeViewModel) {
+    private fun setStartButton(view: View) {
         val navController = Navigation.findNavController(view)
         view.findViewById<Button>(R.id.startBtn).setOnClickListener {
             navController.navigate(R.id.action_running_home_setting_to_running_home_running)

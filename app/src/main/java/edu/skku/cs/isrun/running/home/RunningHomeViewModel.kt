@@ -1,19 +1,18 @@
 package edu.skku.cs.isrun.running.home
 
-import androidx.lifecycle.LiveData
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlin.math.round
+import kotlin.math.*
 
 class RunningHomeViewModel: ViewModel() {
 
-    // ToDo: Learn about LiveData
     private var mText: MutableLiveData<String> = MutableLiveData()
     var freeMode:MutableLiveData<Boolean> = MutableLiveData()
     var recommendMode:MutableLiveData<Boolean> =  MutableLiveData()
     var timeSet:MutableLiveData<Double> = MutableLiveData()
     var distanceSet:MutableLiveData<Double> = MutableLiveData()
-    var time:MutableLiveData<Double> = MutableLiveData()
+    var time:MutableLiveData<Long> = MutableLiveData()
     var distance:MutableLiveData<Double> = MutableLiveData()
 
     fun RunningHomeViewModel() {
@@ -22,9 +21,8 @@ class RunningHomeViewModel: ViewModel() {
         recommendMode.value = true
         timeSet.value = 30.0
         distanceSet.value = 4.0
-        time.value = 0.0
+        time.value = 0
         distance.value = 0.0
-
     }
 
     // average jogging : 8km/h | running 12km/h
@@ -58,6 +56,22 @@ class RunningHomeViewModel: ViewModel() {
         }
     }
 
+    fun getGPSDistance(
+        lastLatitude: Double,
+        lastLongitude: Double,
+        currentLatitude: Double,
+        currentLongitude: Double
+    ): Double {
+        val dLat = Math.toRadians(currentLatitude - lastLatitude)
+        val dLon = Math.toRadians(currentLongitude - lastLongitude)
+        val a = sin(dLat/2).pow(2.0) + sin(dLon/2).pow(2.0)*cos(Math.toRadians(lastLatitude))*cos(Math.toRadians(currentLatitude))
+        val c = 2*asin(sqrt(a))
+        val moveDistance = 6371.8 * c * 1000
+        distance.value = distance.value?.plus(moveDistance)
+
+        return moveDistance
+    }
+
     fun toStringtime(): String {
         val time = round(this.timeSet.value!!).toInt()
         val hour = time/60
@@ -68,5 +82,6 @@ class RunningHomeViewModel: ViewModel() {
     fun toStringdistance():String{
         return "${this.distanceSet.value} km"
     }
+
 
 }

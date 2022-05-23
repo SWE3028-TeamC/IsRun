@@ -26,9 +26,6 @@ class RunningHome: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        val homeViewModel: RunningHomeViewModel =
-            ViewModelProvider(this)[RunningHomeViewModel::class.java]
         binding = RunningHomeFragmentBinding.inflate(inflater, container, false)
         setMap()
 
