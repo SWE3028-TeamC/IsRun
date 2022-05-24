@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/isrun_navigation"
+    app:startDestination="@id/running_home">
+
+    <fragment
+        android:id="@+id/running_home"
+        android:name="edu.skku.cs.isrun.running.home.RunningHome"
+        android:label="Running Home"
+        tools:layout="@layout/running_home_fragment" >
+        <action
+            android:id="@+id/action_running_home_to_running_home_setting"
+            app:destination="@id/running_home_setting"
+            app:launchSingleTop="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/running_achievement"
+        android:name="edu.skku.cs.isrun.running.achievement.RunningAchievement"
+        android:label="Achievements"
+        tools:layout="@layout/running_achievement_fragment" />
+    <fragment
+        android:id="@+id/running_record"
+        android:name="edu.skku.cs.isrun.running.record.RunningRecord"
+        android:label="Records"
+        tools:layout="@layout/running_record_fragment" />
+    <fragment
+        android:id="@+id/running_landmark"
+        android:name="edu.skku.cs.isrun.running.landmark.RunningLandmark"
+        android:label="Landmarks"
+        tools:layout="@layout/running_landmark_fragment" />
+    <fragment
+        android:id="@+id/running_home_setting"
+        android:name="edu.skku.cs.isrun.running.home.setting.RunningHomeSetting"
+        android:label="running_home_setting_fragment"
+        tools:layout="@layout/running_home_setting_fragment" >
+        <action
+            android:id="@+id/action_running_home_setting_to_running_home_running"
+            app:destination="@id/running_home_running"
+            app:popUpTo="@id/running_home_setting"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/running_home_running"
+        android:name="edu.skku.cs.isrun.running.home.running.RunningHomeRunning"
+        android:label="running_home_running_fragment"
+        tools:layout="@layout/running_home_running_fragment" >
+        <action
+            android:id="@+id/action_running_home_running_to_running_home_result"
+            app:destination="@id/running_home_result"
+            app:popUpTo="@id/running_home_running"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/running_home_result"
+        android:name="edu.skku.cs.isrun.running.home.result.RunningHomeResult"
+        android:label="running_home_result_fragment"
+        tools:layout="@layout/running_home_result_fragment" >
+        <action
+            android:id="@+id/action_running_home_result_to_running_home"
+            app:destination="@id/running_home"
+            app:popUpTo="@id/running_home"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>

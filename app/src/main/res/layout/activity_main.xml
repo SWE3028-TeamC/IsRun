@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity_game">
-
+    tools:context=".MainActivity">
+<!--  .MainActivity_game  -->
 
     <ImageView
         android:id="@+id/imageView3"
@@ -15,26 +16,51 @@
         android:visibility="visible"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/game_nav_view"
+<!--  Todo  -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:elevation="3dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/isrun_navigation_graph" />
 
-    </FrameLayout>
+    <Button
+        android:id="@+id/modeBtn"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@color/white"
+        android:drawableTop="@drawable/ic_baseline_videogame_asset_24"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingTop="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_20percent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
+<!--  Todo  -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/game_nav_view"
+        android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="70dp"
         app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_20percent"
+        app:menu="@menu/bottom_run_menu" />
 
-        app:menu="@menu/bottom_game_menu" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_20percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

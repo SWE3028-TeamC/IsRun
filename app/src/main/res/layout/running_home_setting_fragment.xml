@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".running.home.setting.RunningHomeSetting">
+
+    <TextView
+        style="@style/title.big"
+        android:id="@+id/run_set_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Running Setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start"
+        android:layout_marginBottom="114dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Switch
+        style="@style/title.mid"
+        android:id="@+id/free_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:minHeight="48dp"
+        android:text="Free Mode            "
+        app:layout_constraintBottom_toTopOf="@+id/recommend_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/run_set_title" />
+
+    <Switch
+        style="@style/title.mid"
+        android:id="@+id/recommend_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:minHeight="48dp"
+        android:text="Recommendation"
+        android:checked="true"
+        app:layout_constraintBottom_toTopOf="@+id/timeTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/free_switch" />
+
+    <TextView
+        style="@style/title.mid"
+        android:layout_marginTop="50dp"
+        android:id="@+id/timeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recommend_switch"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarTime"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Time : "/>
+
+    <SeekBar
+        android:id="@+id/seekBarTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/timeTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/distanceTitle"
+        android:max="100"
+        android:progress="25"
+        tools:layout_editor_absoluteY="398dp" />
+
+
+    <TextView
+        style="@style/title.mid"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="120dp"
+        android:id="@+id/distanceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarTime"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Distance : "
+        />
+
+    <SeekBar
+        android:id="@+id/seekBarDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="68"
+        app:layout_constraintTop_toBottomOf="@+id/distanceTitle"
+        tools:layout_editor_absoluteX="146dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
