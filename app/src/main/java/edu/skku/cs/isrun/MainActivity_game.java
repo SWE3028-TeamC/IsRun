@@ -248,10 +248,13 @@ public class MainActivity_game extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
 
+        Button modeBtn = findViewById(R.id.runBtn);
+        modeBtn.setOnClickListener( view -> {
+            finish();
+        });
 
         ImageView loading = findViewById(R.id.imageView3);
         Glide.with(this).load(R.raw.rollcat).into(loading);
@@ -260,8 +263,8 @@ public class MainActivity_game extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 loading.setVisibility(View.INVISIBLE);
+                modeBtn.setVisibility(View.VISIBLE);
                 Bundle bundle = new Bundle();
                 bundle.putString("background", "bg"+userdata_game.getMposteridx());
                 bundle.putString("character", app_character_list[userdata_game.getMcharidx()]);
