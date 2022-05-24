@@ -1,11 +1,13 @@
 package edu.skku.cs.isrun
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Layout
 import android.util.Base64
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +46,12 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
             setOf(R.id.running_home, R.id.running_achievement, R.id.running_record, R.id.running_landmark)
         )
+
+        // Intent
+        findViewById<Button>(R.id.modeBtn).setOnClickListener {
+            val gameIntent = Intent(this, MainActivity_game::class.java).apply{ }
+            startActivity(gameIntent)
+        }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController

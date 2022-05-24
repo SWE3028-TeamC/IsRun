@@ -250,7 +250,7 @@ public class MainActivity_game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_game);
 
 
         ImageView loading = findViewById(R.id.imageView3);
