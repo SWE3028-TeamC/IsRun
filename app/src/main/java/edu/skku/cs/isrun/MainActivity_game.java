@@ -168,7 +168,8 @@ public class MainActivity_game extends AppCompatActivity {
                 @Override
                 public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                     response = arg1.toString();
-                    System.out.println(arg0 + ": " + arg1.toString());
+                    //System.out.println(arg0 + ": " + arg1.toString());
+                    System.out.println(response);
                     Gson gson = new GsonBuilder().create();
 
                     if (arg0.equals(uid+"/GetUserData")) {

@@ -1,5 +1,8 @@
 package edu.skku.cs.isrun;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -42,6 +45,7 @@ public class StorFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private int gold;
+    int rn;
     InnerData[] inn = new InnerData[10];
     InnerData2[] inn2 = new InnerData2[20];
 
@@ -75,6 +79,31 @@ public class StorFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+    public void popUpImg(String img, Context context) {
+
+        int resId = getResources().getIdentifier(img, "drawable", this.getActivity().getPackageName());
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.char_popup, null);
+        ImageView imageView = view.findViewById(R.id.popup_img);
+        TextView textView = view.findViewById(R.id.popup_txt);
+        TextView textView2 = view.findViewById(R.id.popup_memo);
+        imageView.setImageResource(resId);
+        textView.setText(img);
+        textView2.setVisibility(View.INVISIBLE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        AlertDialog dialog;
+        dialog = builder.create();
+        dialog.show();
     }
 
     private void mqttgoget (String aa, String topic) {
@@ -144,7 +173,7 @@ public class StorFragment extends Fragment {
                 String aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\", \"gold\":"+gold+"}";
                 System.out.println(aa);
                 mqttgoget(aa,"UserData/UpdateUserData");
-                int rn;
+
                 while (true) {
                     rn = rnd.nextInt(7)+1;
                     int finalRn = rn;
@@ -164,38 +193,6 @@ public class StorFragment extends Fragment {
                 aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\",\"charidx\":"+rn+"}";
                 mqttgoget(aa,"UserData/NewUserChar");
 
-                //((MainActivity_game)getActivity()).mqttgoget(aa,"UserData/NewUserChar");
-                /*
-                final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
-                try
-                {
-                    MqttClient client = new MqttClient(
-                            MQTT_BROKER_IP, //URI
-                            MqttClient.generateClientId(), //ClientId
-                            new MemoryPersistence());
-                    client.connect();
-                    client.setCallback(new MqttCallback() {
-                        @Override
-                        public void connectionLost(Throwable cause) { //Called when the client lost the connection to the broker
-                        }
-                        @Override
-                        public void deliveryComplete(IMqttDeliveryToken arg0) {                }
-                        @Override
-                        public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
-                            System.out.println(arg0 + ": " + arg1.toString());
-                            //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    //client.subscribe("testid/#", 2);
-                    client.publish("UserData/NewUserChar",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-                    //client.publish("UserData/UpdateUserChar",new MqttMessage(bb.getBytes(StandardCharsets.UTF_8)));
-                }
-
-                catch (MqttException e) {
-                    e.printStackTrace();
-                } //Persistence
-                */
-                //((MainActivity_game)getActivity()).userdata_game.
                 ((MainActivity_game)getActivity()).userdata_game.setUserChars(inn);
                 ((MainActivity_game)getActivity()).userdata_game.setCharacter_list(characterlist);
                 Handler handler = new Handler();
@@ -205,6 +202,7 @@ public class StorFragment extends Fragment {
                         random.setVisibility(View.INVISIBLE);
                         backbtn.setVisibility(View.VISIBLE);
                         charbtn.setVisibility(View.VISIBLE);
+                        popUpImg(((MainActivity_game) getActivity()).app_character_list[rn],getContext());
                     }
                 }, 3000);
             }
@@ -281,37 +279,7 @@ public class StorFragment extends Fragment {
                     }
                 });
 
-/*        final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
-        try
-        {
-            MqttClient client = new MqttClient(
-                    MQTT_BROKER_IP, //URI
-                    MqttClient.generateClientId(), //ClientId
-                    new MemoryPersistence());
-            client.connect();
-            client.setCallback(new MqttCallback() {
-                @Override
-                public void connectionLost(Throwable cause) { //Called when the client lost the connection to the broker
-                }
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken arg0) {                }
-                @Override
-                public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
-                    System.out.println(arg0 + ": " + arg1.toString());
-                    //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            String aa = "{\"UserId\":\"testid\"}";
-            String bb = "{\"UserId\": \"testid\", \"charidx\": 1, \"charLV\": 2, \"charname\": \"kit\", \"charexp\": 10, \"charlove\": 1, \"charfull\": 1}";
-            client.subscribe("testid/#", 2);
-            client.publish("UserData/GetUserChars",new MqttMessage(aa.getBytes(StandardCharsets.UTF_8)));
-            //client.publish("UserData/UpdateUserChar",new MqttMessage(bb.getBytes(StandardCharsets.UTF_8)));
-        }
 
-        catch (MqttException e) {
-            e.printStackTrace();
-        } //Persistence
-*/
         return v;
     }
 }
