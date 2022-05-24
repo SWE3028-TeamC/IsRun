@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(binding.root)
 
-        val navView = findViewById<BottomNavigationView>(R.id.run_nav_view)
+        val navView = findViewById<BottomNavigationView>(R.id.nav_view)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(this, navController, appBarConfiguration)
 
-        binding.runNavView.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
 
         var keyHash = Utility.getKeyHash(this)
         Log.e("Hash key kakao", keyHash)

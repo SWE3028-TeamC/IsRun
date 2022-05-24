@@ -57,11 +57,11 @@ class RunningHome: Fragment() {
     // function for KAKAO MAP
     private fun setMap(){
 
-        var keyHash = Utility.getKeyHash(this.context)
+        val keyHash = Utility.getKeyHash(this.context)
         Log.e("Hash key kakao", keyHash)
 
         val mapView = MapView(this.activity)
-//        Log.e("mapView", mapView.)
+//        Log.e("mapView", mapView.toString())
         binding?.mapView?.addView(mapView)
         // tracking on
         mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
