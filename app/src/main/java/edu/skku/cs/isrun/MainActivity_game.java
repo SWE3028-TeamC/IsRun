@@ -271,12 +271,22 @@ public class MainActivity_game extends AppCompatActivity {
         }, 2000);
 
         uid = "testid";
-        String aa = "{\"UserId\":\""+uid+"\"}";
-        mqttgoget(aa,"UserData/GetUserData");
-        mqttgoget(aa,"UserData/GetUserChars");
-        mqttgoget(aa,"UserData/GetUserPosters");
+        Thread t = new Thread() {
+            public void run () {
+                try {
+                    String aa = "{\"UserId\":\""+uid+"\"}";
+                    mqttgoget(aa,"UserData/GetUserData");
+                    mqttgoget(aa,"UserData/GetUserChars");
+                    mqttgoget(aa,"UserData/GetUserPosters");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+        };
 
+        t.setDaemon(true);
+        t.start();
 
         ActionBar actb = getSupportActionBar();
         actb.hide();

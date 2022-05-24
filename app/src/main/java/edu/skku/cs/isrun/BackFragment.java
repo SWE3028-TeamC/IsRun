@@ -106,6 +106,7 @@ public class BackFragment extends Fragment {
                 public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                     System.out.println(arg0 + ": " + arg1.toString());
                     //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
+                    client.disconnect();
                 }
             });
             client.subscribe(((MainActivity_game)getActivity()).uid+"/#", 2);

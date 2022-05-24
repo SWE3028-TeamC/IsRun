@@ -124,6 +124,7 @@ public class StorFragment extends Fragment {
                 @Override
                 public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                     System.out.println(arg0 + ": " + arg1.toString());
+                    client.disconnect();
                     //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -220,7 +221,6 @@ public class StorFragment extends Fragment {
                 gold_txt.setText(""+gold);
                 String aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\", \"gold\":"+gold+"}";
                 mqttgoget(aa,"UserData/UpdateUserData");
-                int rn;
                 while (true) {
                     rn = rnd.nextInt(12)+3;
                     int finalRn = rn;
@@ -274,6 +274,7 @@ public class StorFragment extends Fragment {
                                 random.setVisibility(View.INVISIBLE);
                                 backbtn.setVisibility(View.VISIBLE);
                                 charbtn.setVisibility(View.VISIBLE);
+                                popUpImg("bg"+rn,getContext());
                             }
                         }, 3000);
                     }

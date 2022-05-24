@@ -97,6 +97,7 @@ public class HomeFragment extends Fragment {
                 public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                     System.out.println(arg0 + ": " + arg1.toString());
                     //Toast.makeText(MainActivity_game.this, arg1.toString(), Toast.LENGTH_SHORT).show();
+                    client.disconnect();
                 }
             });
             client.subscribe(((MainActivity_game)getActivity()).uid+"/#", 2);
@@ -111,7 +112,7 @@ public class HomeFragment extends Fragment {
     public int[] maxlov = new int[]{5,10,10,20,20};
     public int[] maxful = new int[]{5,10,10,20,20};
     public int[] maxexp = new int[]{5,10,20,30,40};
-
+    public int foo;
     public int charstat(int level,int mcharidx, int exp, int lov, int ful) {
         int lev = level;
         if (exp==maxexp[level]) {
@@ -143,7 +144,10 @@ public class HomeFragment extends Fragment {
         FloatingActionButton btn_food = v.findViewById(R.id.foodbutton);
         FloatingActionButton btn_play = v.findViewById(R.id.playbutton);
         TextView level = (TextView)v.findViewById(R.id.level);
+        TextView food = (TextView) v.findViewById(R.id.food);
         level.setText("Level "+lev);
+        food.setText(""+((MainActivity_game)getActivity()).userdata_game.getFood());
+        foo=((MainActivity_game)getActivity()).userdata_game.getFood();
         ProgressBar expbar = (ProgressBar) v.findViewById(R.id.progressStat1);
         ProgressBar lovbar = (ProgressBar) v.findViewById(R.id.progressStat2);
         ProgressBar fulbar = (ProgressBar) v.findViewById(R.id.progressStat3);
@@ -177,6 +181,10 @@ public class HomeFragment extends Fragment {
                 response.setVisibility(View.VISIBLE);
                 int resid = getResources().getIdentifier(chchange + "_f", "drawable", getContext().getPackageName());
                 response.setImageResource(resid);
+                foo=((MainActivity_game)getActivity()).userdata_game.getFood();
+                String aa = "{\"UserId\":\""+((MainActivity_game)getActivity()).uid+"\", \"food\":"+foo+"}";
+                mqttgoget(aa,"UserData/UpdateUserData");
+                food.setText(""+foo);
                 ful+=1;
                 exp+=1;
                 Handler handler = new Handler();
