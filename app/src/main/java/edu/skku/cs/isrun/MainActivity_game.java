@@ -150,7 +150,7 @@ public class MainActivity_game extends AppCompatActivity {
         return 0;
     }
     public void mqttgoget (String aa, String topic) {
-        final String MQTT_BROKER_IP = "tcp://ec2-3-36-128-151.ap-northeast-2.compute.amazonaws.com:1883";
+        final String MQTT_BROKER_IP = "tcp://ec2-52-79-242-94.ap-northeast-2.compute.amazonaws.com:1883";
         try
         {
             MqttClient client = new MqttClient(
