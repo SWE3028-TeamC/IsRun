@@ -42,10 +42,6 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    int lev;
-    int ful;
-    int lov;
-    int exp;
 
 
     public HomeFragment() {
@@ -112,7 +108,12 @@ public class HomeFragment extends Fragment {
     public int[] maxlov = new int[]{5,10,10,20,20};
     public int[] maxful = new int[]{5,10,10,20,20};
     public int[] maxexp = new int[]{5,10,20,30,40};
+    public int a=0;
     public int foo;
+    public int lev;
+    public int ful;
+    public int lov;
+    public int exp;
     public int charstat(int level,int mcharidx, int exp, int lov, int ful) {
         int lev = level;
         if (exp==maxexp[level]) {
@@ -129,13 +130,11 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Bundle bundle = getArguments();
         UserGameData userdata = ((MainActivity_game)getActivity()).userdata_game;
 
-        lev = userdata.getUserChars()[userdata.getMcharidx()].getCharLV();
-        lov = userdata.getUserChars()[userdata.getMcharidx()].getCharlove();
-        exp = userdata.getUserChars()[userdata.getMcharidx()].getCharexp();
-        ful = userdata.getUserChars()[userdata.getMcharidx()].getCharfull();
-        int idx = userdata.getMcharidx();
+        int idx = bundle.getInt("mcharidx");
+        lev = userdata.getUserChars()[idx].getCharLV();
 
         ImageView ch= (ImageView) v.findViewById(R.id.gameCharacter);
         ImageView bg= (ImageView) v.findViewById(R.id.gameBackground);
@@ -148,18 +147,23 @@ public class HomeFragment extends Fragment {
         level.setText("Level "+lev);
         food.setText(""+((MainActivity_game)getActivity()).userdata_game.getFood());
         foo=((MainActivity_game)getActivity()).userdata_game.getFood();
+        lov=((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx].getCharlove();
+        exp=((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx].getCharexp();
+        ful=((MainActivity_game)getActivity()).userdata_game.getUserChars()[idx].getCharfull();
         ProgressBar expbar = (ProgressBar) v.findViewById(R.id.progressStat1);
         ProgressBar lovbar = (ProgressBar) v.findViewById(R.id.progressStat2);
         ProgressBar fulbar = (ProgressBar) v.findViewById(R.id.progressStat3);
-        expbar.setMax(maxexp[lev]);
-        lovbar.setMax(maxlov[lev]);
-        fulbar.setMax(maxful[lev]);
-        expbar.setProgress(exp,true);
-        lovbar.setProgress(lov,true);
-        fulbar.setProgress(ful,true);
+
+        if (idx!=-1) {
+            expbar.setMax(maxexp[lev]);
+            lovbar.setMax(maxlov[lev]);
+            fulbar.setMax(maxful[lev]);
+            expbar.setProgress(exp,true);
+            lovbar.setProgress(lov,true);
+            fulbar.setProgress(ful,true);
+        }
 
 
-        Bundle bundle = getArguments();
         String bgchange = bundle.getString("background"); // 프래그먼트1에서 받아온 값 넣기
 
         if (bgchange.equals("bg0")) {
@@ -218,8 +222,13 @@ public class HomeFragment extends Fragment {
             response.setVisibility(View.VISIBLE);
             int resid = getResources().getIdentifier(chchange+"_p", "drawable",getContext().getPackageName());
             response.setImageResource(resid);
-            lov++;
+            if (a==0) {
+                ful-=1;
+                lov+=lev;
+                a+=1;
+            }
             charstat(lev,idx, exp,lov,ful);
+            fulbar.setProgress(ful,true);
             lovbar.setProgress(lov,true);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -230,7 +239,6 @@ public class HomeFragment extends Fragment {
                 }
             },1000);
         });
-
 
         if (!(chchange.equals("NONE"))) {
             if (chchange.equals("hamster")) {

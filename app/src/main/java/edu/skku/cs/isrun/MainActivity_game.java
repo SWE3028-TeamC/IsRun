@@ -173,12 +173,17 @@ public class MainActivity_game extends AppCompatActivity {
                     Gson gson = new GsonBuilder().create();
 
                     if (arg0.equals(uid+"/GetUserData")) {
-                        userdata_game = gson.fromJson(response, UserGameData.class);
+                        UserGameData temp2 = gson.fromJson(response, UserGameData.class);
                         System.out.println(userdata_game.getMcharidx());
                         System.out.println(userdata_game.getMposteridx());
                         System.out.println(userdata_game.getFood());
                         System.out.println(userdata_game.getGold());
                         System.out.println(userdata_game.getUserid());
+                        userdata_game.setFood(temp2.getFood());
+                        userdata_game.setGold(temp2.getGold());
+                        userdata_game.setMcharidx(temp2.getMcharidx());
+                        userdata_game.setMposteridx(temp2.getMposteridx());
+                        userdata_game.setUserid(temp2.getUserid());
                     }
                     else if (arg0.equals(uid+"/GetUserChars")) {
 
@@ -270,7 +275,7 @@ public class MainActivity_game extends AppCompatActivity {
             }
         }, 2000);
 
-        uid = "testid";
+        this.uid = "testid";
         Thread t = new Thread() {
             public void run () {
                 try {
@@ -333,10 +338,13 @@ public class MainActivity_game extends AppCompatActivity {
                         return true;
 
                     case R.id.gaming_home:
-                            Bundle bundle4 = new Bundle();
-                            bundle4.putString("background", "bg"+userdata_game.getMposteridx());
-                            bundle4.putString("character", app_character_list[userdata_game.getMcharidx()]);
-                            homeFragment.setArguments(bundle4);
+                        String aa = "{\"UserId\":\""+uid+"\"}";
+                        mqttgoget(aa,"UserData/GetUserData");
+                        Bundle bundle4 = new Bundle();
+                        bundle4.putString("background", "bg"+userdata_game.getMposteridx());
+                        bundle4.putString("character", app_character_list[userdata_game.getMcharidx()]);
+                        bundle4.putInt("mcharidx",userdata_game.getMcharidx());
+                        homeFragment.setArguments(bundle4);
 
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
                         return true;
