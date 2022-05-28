@@ -270,6 +270,7 @@ public class MainActivity_game extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("background", "bg"+userdata_game.getMposteridx());
                 bundle.putString("character", app_character_list[userdata_game.getMcharidx()]);
+                bundle.putInt("mcharidx",userdata_game.getMcharidx());
                 homeFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
             }
