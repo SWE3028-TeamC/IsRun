@@ -1,12 +1,16 @@
 package edu.skku.cs.isrun.running.home
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -21,13 +25,39 @@ class RunningHome: Fragment() {
 
     private var binding: RunningHomeFragmentBinding? = null
     private var ACCESS_FINE_LOCATION = 1000
+    private val TAG_CODE_PERMISSION_LOCATION = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = RunningHomeFragmentBinding.inflate(inflater, container, false)
-        setMap()
+        try{
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.e("Permission", PackageManager.PERMISSION_GRANTED.toString())
+
+                ActivityCompat.requestPermissions(
+                    requireActivity(), arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    ACCESS_FINE_LOCATION
+                )
+            }
+            else{
+                Log.e("GPS","Working")
+                setMap()
+            }
+        }catch(e: SecurityException){
+            Log.e("SecurityException","$e")
+        }
 
         return binding!!.root
     }
@@ -78,14 +108,13 @@ class RunningHome: Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == ACCESS_FINE_LOCATION && grantResults.isNotEmpty() &&
+            (grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED)){
+            setMap()
+        }else{
+            Toast.makeText(context, "Permission Denied!", Toast.LENGTH_SHORT).show()
+        }
     }
-
-    // check GPS
-    private fun checkLocationService(): Boolean{
-        val locationManger = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER)
-    }
-
 
 }
 

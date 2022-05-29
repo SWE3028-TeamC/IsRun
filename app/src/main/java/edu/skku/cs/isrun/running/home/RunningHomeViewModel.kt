@@ -1,21 +1,36 @@
 package edu.skku.cs.isrun.running.home
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import edu.skku.cs.isrun.RunResult
+import edu.skku.cs.isrun.UserRunData
+import org.eclipse.paho.client.mqttv3.*
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
+import java.nio.charset.StandardCharsets
 import java.text.DecimalFormat
 import kotlin.math.*
 
 class RunningHomeViewModel: ViewModel() {
 
     private var mText: MutableLiveData<String> = MutableLiveData()
+    var uid:MutableLiveData<String> = MutableLiveData()
     var freeMode:MutableLiveData<Boolean> = MutableLiveData()
     var recommendMode:MutableLiveData<Boolean> =  MutableLiveData()
     var timeSet:MutableLiveData<Double> = MutableLiveData()
     var distanceSet:MutableLiveData<Double> = MutableLiveData()
     var time:MutableLiveData<Long> = MutableLiveData()
     var distance:MutableLiveData<Double> = MutableLiveData()
+    var gpsProgress:MutableLiveData<ArrayList<GPSdata>> = MutableLiveData()
+    // save user run data
+    var userData:MutableLiveData<UserRunData> = MutableLiveData()
+    var runResult:MutableLiveData<RunResult> = MutableLiveData()
 
+    @SuppressLint("NotConstructor")
     fun RunningHomeViewModel() {
         mText.value = "This is home fragment"
         freeMode.value = false
@@ -24,7 +39,129 @@ class RunningHomeViewModel: ViewModel() {
         distanceSet.value = 4.0
         time.value = 0
         distance.value = 0.0
+        gpsProgress.value = ArrayList()
+        if(userData.value == null){
+            userData.value = UserRunData()
+        }
+        runResult.value = RunResult(arrayOf(0), arrayOf(""),0,0,0)
     }
+
+    fun mqttgoget(aa: String, topic: String?) {
+        // aa = string of json format for post
+        // topic selecting query for request
+        val MQTT_BROKER_IP = "tcp://ec2-52-79-242-94.ap-northeast-2.compute.amazonaws.com:1883"
+        try {
+            val client = MqttClient(
+                MQTT_BROKER_IP,  //URI
+                MqttClient.generateClientId(),  //ClientId
+                MemoryPersistence()
+            )
+            client.connect()
+            client.setCallback(object : MqttCallback {
+                override fun connectionLost(cause: Throwable) { //Called when the client lost the connection to the broker
+                    println("Connection Lost")
+                }
+
+                override fun deliveryComplete(arg0: IMqttDeliveryToken) {}
+
+                // arg0 = response topic
+                // arg1 = response json
+                @Throws(Exception::class)
+                override fun messageArrived(arg0: String, arg1: MqttMessage) {
+                    val response = arg1.toString()
+                    Log.e("Response", response)
+                    val gson = GsonBuilder().create()
+                    if (arg0 == "${uid.value}/GetUserData") {
+                        println("userData")
+                        val userdata_run =
+                            gson.fromJson(response, UserRunData::class.java)
+
+                        println(userdata_run.mcharidx)
+                        println(userdata_run.food )
+                        println(userdata_run.gold)
+                        println(userdata_run.run)
+
+                        userData.postValue(userdata_run)
+                    }
+                    else if(arg0 == "${uid.value}/RunStart"){
+                        val rundata_response =
+                            gson.fromJson(response, RunResult::class.java)
+                        runResult.postValue(rundata_response)
+                        println("Run Start")
+                        println(rundata_response.newAchivs)
+                    }
+                    else if(arg0 == "${uid.value}/RunEnd"){
+                        val rundata_response =
+                            gson.fromJson(response, RunResult::class.java)
+                        val old_Achivs = runResult.value?.newAchivs
+
+                        Log.e("Result","Gold : ${rundata_response.gold}")
+                        runResult.postValue(rundata_response)
+//                        runResult.value?.attachNewAchi(old_Achivs)
+
+                    }
+                    // Todo Achievements
+                    else if(arg0 == "${uid.value}/GetUserAchieves"){
+
+                    }
+                    // Todo Records
+                    else if(arg0 == "${uid.value}/GetRunData"){
+
+                    }
+                    // Todo Landmark closest, recent, visited
+                    else if(arg0 == "${uid.value}/GetRecommendation"){
+
+                    }
+                    client.disconnect()
+                }
+            })
+            client.subscribe("${uid.value}/#", 2)
+            client.publish(topic, MqttMessage(aa.toByteArray(StandardCharsets.UTF_8)))
+        } catch (e: MqttException) {
+            e.printStackTrace()
+        } //Persistence
+    }
+
+
+    fun UpdateUser(){
+        val aa = "{\"UserId\":\"${uid.value}\"}"
+        mqttgoget(aa, "UserData/GetUserData")
+    }
+
+    fun StartRun(timeStamp: String, startlat:Double, startlon:Double){
+        val aa = "{\"SenderId\":\"${uid.value}\"" +
+                ",\"RunIdx\":\"${userData.value?.run}\"" +
+                ",\"Time_Goal\":\"${timeSet.value}\"" +
+                ",\"Dist_Goal\":\"${distanceSet.value}\"" +
+                ",\"Start_Time\":\"$timeStamp\"" +
+                ",\"StartLat\":\"$startlat\"" +
+                ",\"StartLon\":\"$startlon\"}"
+        println(aa)
+        mqttgoget(aa, "RunData/RunStart")
+    }
+
+    fun EndRun(timeStamp: String, startlat:Double, startlon:Double){
+        val aa = "{\"SenderId\":\"${uid.value}\"" +
+                ",\"RunIdx\":\"${userData.value?.run}\"" +
+                ",\"End_Time\":\"$timeStamp\"" +
+                ",\"EndLat\":\"$startlat\"" +
+                ",\"EndLon\":\"$startlon\"" +
+                ",\"Dist_Achv\":\"${distance.value}\"}"
+        println(aa)
+        userData.value?.run = userData.value?.run?.plus(1)!!
+        mqttgoget(aa, "RunData/RunEnd")
+    }
+
+    fun UpdateGPS(gpsLog: ArrayList<GPSdata>){
+        // Todo convert list of GPS to json format
+        val arrayGps = gpsLog.toTypedArray()
+        println(arrayGps)
+        val gson = Gson()
+        val aa = gson.toJson(arrayGps)
+        println(aa)
+        mqttgoget(aa, "RunningData/${uid.value}/${userData.value?.run}")
+    }
+
 
     // average jogging : 8km/h | running 12km/h
     fun recommendationRun(time_check:Boolean) {
@@ -68,8 +205,9 @@ class RunningHomeViewModel: ViewModel() {
         val a = sin(dLat/2).pow(2.0) + sin(dLon/2).pow(2.0)*cos(Math.toRadians(lastLatitude))*cos(Math.toRadians(currentLatitude))
         val c = 2*asin(sqrt(a))
         val moveDistance = 6371.8 * c * 1000
-        distance.value = distance.value?.plus(moveDistance)
-
+        if(moveDistance> 0.5){
+            distance.value = distance.value?.plus(moveDistance)
+        }
         return moveDistance
     }
 

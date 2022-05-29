@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
@@ -17,14 +18,20 @@ import android.widget.Chronometer
 import android.widget.Chronometer.OnChronometerTickListener
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.gms.location.*
+import com.google.gson.GsonBuilder
 import edu.skku.cs.isrun.R
+import edu.skku.cs.isrun.RunResult
+import edu.skku.cs.isrun.running.home.GPSdata
 import edu.skku.cs.isrun.running.home.RunningHomeViewModel
+import org.eclipse.paho.client.mqttv3.*
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
+import java.nio.charset.StandardCharsets
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,6 +46,7 @@ class RunningHomeRunning : Fragment(){
     private var running:Boolean = true
     private var pauseOffset:Long = 0
     private var timeStamp:String =""
+    private var gpsLog: ArrayList<GPSdata> = ArrayList()
 
     companion object {
         fun newInstance() = RunningHomeRunning()
@@ -78,11 +86,9 @@ class RunningHomeRunning : Fragment(){
         val distanceObserver = Observer<Double> { distance ->
             distanceView.text = "${DecimalFormat("####0.0").format(distance)} m"
         }
-
         viewModel.distance.observe(viewLifecycleOwner, distanceObserver)
 
         client = LocationServices.getFusedLocationProviderClient(requireActivity())
-
         try{
             Log.e("Running","$running")
             if(running){
@@ -146,10 +152,18 @@ class RunningHomeRunning : Fragment(){
         chronometer.start()
         running = true
 
-
         val navController = Navigation.findNavController(view)
         view.findViewById<Button>(R.id.finishBtn).setOnClickListener {
             client.removeLocationUpdates(locationCallback)
+            // Todo send to server
+            //  RunData/RunEnd {SenderId(testid), RunIdx(Userdata.run), End_Time(timestamp), EndLat(latitude), EndLon(longitude)}
+            //  response = NewPosterIdx, NewAchivs, gold , food ,love -> show achieve?
+            println("End Here")
+            viewModel.UpdateGPS(gpsLog)
+            gpsLog.clear()
+            EndRun(timeStamp, latitude, longitude)
+            val handler = Handler()
+            handler.postDelayed(Runnable() { run() { } }, 3000)
             navController.navigate(R.id.action_running_home_running_to_running_home_result)
         }
     }
@@ -168,14 +182,6 @@ class RunningHomeRunning : Fragment(){
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation(){
         val locationManger = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -184,9 +190,34 @@ class RunningHomeRunning : Fragment(){
             client.lastLocation
                 .addOnSuccessListener { location ->
                     if( location != null){
+                        val oldlon = longitude
                         longitude = location.longitude
                         latitude = location.latitude
                         timeStamp = getCurrentTimeStamp()!!
+                        val gps = GPSdata(timeStamp, longitude, latitude)
+                        gpsLog.add(gps)
+                        viewModel.gpsProgress.value?.add(gps)
+                        // Todo send to server
+                        //  UserData(testid)/RunStart {"SenderId":(testid),
+                        //                              RunIdx(Userdata.run),
+                        //                              Time_Goal, Dist_Goal,
+                        //                              Start_Time(timestamp),
+                        //                              StartLat, StartLon}
+                        //  response = NewPosterIdx
+                        if(oldlon.equals(0.0)){
+                            val t: Thread = object : Thread() {
+                                override fun run() {
+                                    try {
+                                        println("Start Here")
+                                        StartRun(timeStamp, latitude, longitude)
+                                    } catch (e: java.lang.Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }
+                            t.isDaemon = true
+                            t.start()
+                        }
                         Log.e("My location ","Longitude : ${location.longitude}, Latitude ${location.latitude}")
                     }
 
@@ -200,13 +231,37 @@ class RunningHomeRunning : Fragment(){
                         override fun onLocationResult(locationResult: LocationResult) {
                             val loc_inCallback = locationResult.lastLocation
                             val distance = viewModel.getGPSDistance(latitude, longitude, loc_inCallback.latitude, loc_inCallback.longitude)
-                            longitude = loc_inCallback.longitude
-                            latitude = loc_inCallback.latitude
-                            averagePace.text = viewModel.getPace()
-                            percent.text = "${DecimalFormat("##0.00").format(viewModel.getPercent())} %"
-                            timeStamp = getCurrentTimeStamp()!!
-                            Log.e("My location ","Time : $timeStamp, Longitude : ${loc_inCallback.longitude}, Latitude ${loc_inCallback.latitude}, Distance Moved : $distance")
-
+                            if(distance > 0.5){
+                                longitude = loc_inCallback.longitude
+                                latitude = loc_inCallback.latitude
+                                averagePace.text = viewModel.getPace()
+                                percent.text = "${DecimalFormat("##0.00").format(viewModel.getPercent())} %"
+                                timeStamp = getCurrentTimeStamp()!!
+                                // current gps
+                                val gps = GPSdata(timeStamp, longitude, latitude)
+                                gpsLog.add(gps)
+                                viewModel.gpsProgress.value?.add(gps)
+                                if(gpsLog.size == 10){
+                                    // Todo send to server and flush
+                                    //  RunningData/userID(testid)/RunIdx(Userdata.run)
+                                    //  [{Time(timestamp), Lat(latitude), Lon(longitude)}, ...]
+                                    //  no response
+                                    val t: Thread = object : Thread() {
+                                        override fun run() {
+                                            try {
+                                                println("Here")
+                                                viewModel.UpdateGPS(gpsLog)
+                                                gpsLog.clear()
+                                            } catch (e: java.lang.Exception) {
+                                                e.printStackTrace()
+                                            }
+                                        }
+                                    }
+                                    t.isDaemon = true
+                                    t.start()
+                                }
+                                Log.e("My location ","Time : $timeStamp, Longitude : ${loc_inCallback.longitude}, Latitude ${loc_inCallback.latitude}, Distance Moved : $distance")
+                            }
                         }
                     }
                     Looper.myLooper()?.let {
@@ -221,6 +276,86 @@ class RunningHomeRunning : Fragment(){
         }
     }
 
+    fun mqttgoget(aa: String, topic: String?) {
+        // aa = string of json format for post
+        // topic selecting query for request
+        val MQTT_BROKER_IP = "tcp://ec2-52-79-242-94.ap-northeast-2.compute.amazonaws.com:1883"
+        try {
+            val client = MqttClient(
+                MQTT_BROKER_IP,  //URI
+                MqttClient.generateClientId(),  //ClientId
+                MemoryPersistence()
+            )
+            client.connect()
+            client.setCallback(object : MqttCallback {
+                override fun connectionLost(cause: Throwable) { //Called when the client lost the connection to the broker
+                    println("Connection Lost")
+                }
+
+                override fun deliveryComplete(arg0: IMqttDeliveryToken) {}
+
+                // arg0 = response topic
+                // arg1 = response json
+                @Throws(Exception::class)
+                override fun messageArrived(arg0: String, arg1: MqttMessage) {
+                    val response = arg1.toString()
+                    Log.e("Response", response)
+                    val gson = GsonBuilder().create()
+
+                    activity?.runOnUiThread(Runnable {
+                        if (arg0 == "${viewModel.uid.value}/RunStart") {
+                            val rundata_response =
+                                gson.fromJson(response, RunResult::class.java)
+                            viewModel.runResult.value = (rundata_response)
+                            println("Run Start")
+                            println(rundata_response.newAchivs)
+                        } else if (arg0 == "${viewModel.uid.value}/RunEnd") {
+                            val rundata_response =
+                                gson.fromJson(response, RunResult::class.java)
+                            val old_Achivs = viewModel.runResult.value?.newAchivs
+
+                            Log.e("Result", "Gold : ${rundata_response.gold}")
+                            viewModel.runResult.value = (rundata_response)
+                            if(old_Achivs != null){
+                                viewModel.runResult.value?.attachNewAchi(old_Achivs)
+                            }
+                        }
+                        client.disconnect()
+                    })
+                }
+            })
+            client.subscribe("${viewModel.uid.value}/#", 2)
+            client.publish(topic, MqttMessage(aa.toByteArray(StandardCharsets.UTF_8)))
+        } catch (e: MqttException) {
+            e.printStackTrace()
+        } //Persistence
+    }
+
+    fun StartRun(timeStamp: String, startlat:Double, startlon:Double){
+        val aa = "{\"SenderId\":\"${viewModel.uid.value}\"" +
+                ",\"RunIdx\":\"${viewModel.userData.value?.run}\"" +
+                ",\"Time_Goal\":\"${viewModel.timeSet.value}\"" +
+                ",\"Dist_Goal\":\"${viewModel.distanceSet.value}\"" +
+                ",\"Start_Time\":\"$timeStamp\"" +
+                ",\"StartLat\":\"$startlat\"" +
+                ",\"StartLon\":\"$startlon\"}"
+        println(aa)
+        mqttgoget(aa, "RunData/RunStart")
+    }
+
+
+    fun EndRun(timeStamp: String, startlat:Double, startlon:Double){
+        val aa = "{\"SenderId\":\"${viewModel.uid.value}\"" +
+                ",\"RunIdx\":\"${viewModel.userData.value?.run}\"" +
+                ",\"End_Time\":\"$timeStamp\"" +
+                ",\"EndLat\":\"$startlat\"" +
+                ",\"EndLon\":\"$startlon\"" +
+                ",\"Dist_Achv\":\"${viewModel.distance.value}\"}"
+        println(aa)
+        viewModel.userData.value?.run = viewModel.userData.value?.run?.plus(1)!!
+        mqttgoget(aa, "RunData/RunEnd")
+    }
+
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentTimeStamp(): String? {
         return try {
@@ -233,4 +368,5 @@ class RunningHomeRunning : Fragment(){
     }
 
 }
+
 

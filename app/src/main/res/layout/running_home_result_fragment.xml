@@ -43,16 +43,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.4" />
-                <TextView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/run_map"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:text="Run Map"
+                    android:layout_height="300dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/white"
-                    android:background="@color/cardview_dark_background"
-                    />
+                    android:background="@color/cardview_dark_background">
+                    <!-- Map view  -->
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/status_title"
@@ -157,6 +157,7 @@
                 android:id="@+id/petResultLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/runResultLayout">
                 <!-- Character Resources -->
                 <TextView
@@ -165,24 +166,90 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Pet Reward"
                     app:layout_constraintBottom_toTopOf="@+id/petImage"
-                    android:text="Pet Reward"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_marginTop="40dp"
                     android:id="@+id/petImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/petTitle"
-                    android:background="@color/gray"
-                    app:srcCompat="@drawable/ic_launcher_foreground">
-                </ImageView>
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <TextView
+                    android:id="@+id/Gold"
+                    style="@style/title.mid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Gold : ____"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toBottomOf="@+id/petImage" />
+
+                <TextView
+                    android:id="@+id/petFood"
+                    style="@style/title.mid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Pet Food : ____"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toBottomOf="@+id/Gold" />
+
+                <TextView
+                    android:id="@+id/petLove"
+                    style="@style/title.mid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Pet Love : ____"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toBottomOf="@+id/petFood" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/Achieve_title"
+                style="@style/title.mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Achievements"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/petResultLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="960dp" />
+
+            <TextView
+                android:id="@+id/newAchieve"
+                style="@style/title.mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="None"
+                app:layout_constraintBottom_toTopOf="@+id/returnBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Achieve_title" />
+
 
             <Button
                 android:id="@+id/returnBtn"
@@ -190,11 +257,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="90dp"
+                android:text="return"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/petResultLayout"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="return"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/newAchieve" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

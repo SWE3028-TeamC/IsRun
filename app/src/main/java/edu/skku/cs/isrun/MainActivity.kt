@@ -2,11 +2,8 @@ package edu.skku.cs.isrun
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -15,29 +12,25 @@ import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.GsonBuilder
 import com.kakao.util.maps.helper.Utility
 import edu.skku.cs.isrun.databinding.ActivityMainBinding
 import edu.skku.cs.isrun.running.home.RunningHomeViewModel
+import org.eclipse.paho.client.mqttv3.*
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
+import java.nio.charset.StandardCharsets
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val runViewModel: RunningHomeViewModel by viewModels()
     private val uid = "testid"
+    var app_character_list = arrayOf("cat", "dog", "hamster", "parrot", "bunny", "lion", "seal", "shiba")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        val loading = findViewById<ImageView>(R.id.loading)
-//        Log.d("load",loading.toString())
-//        Glide.with(this).load(R.raw.rollcat).into(loading)
-//        loading.bringToFront()
-//        val handler = Handler()
-//        handler.postDelayed({
-//            loading.visibility = View.INVISIBLE
-//        }, 2000)
-
         runViewModel.RunningHomeViewModel()
+        runViewModel.uid.value = uid
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         // Hiding action bar on the top
@@ -66,27 +59,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setupWithNavController(navController)
 
-        var keyHash = Utility.getKeyHash(this)
+        val keyHash = Utility.getKeyHash(this)
         Log.e("Hash key kakao", keyHash)
-//        // function for hashcode for debugging
-//        fun getAppKeyHash() {
-//            try {
-//                val info =
-//                    packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-//                for (signature in info.signatures) {
-//                    var md: MessageDigest
-//                    md = MessageDigest.getInstance("SHA")
-//                    md.update(signature.toByteArray())
-//                    val something = String(Base64.encode(md.digest(), 0))
-//                    Log.e("Hash key", something)
-//                }
-//            } catch (e: Exception) {
-//
-//                Log.e("name not found", e.toString())
-//            }
-//        }
-//        getAppKeyHash()
 
+        // Todo get userdata and set to viewModel
+        //  new Thread?
+        runViewModel.UpdateUser()
     }
 
 
