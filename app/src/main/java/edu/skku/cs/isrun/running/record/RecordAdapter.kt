@@ -9,11 +9,9 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import edu.skku.cs.isrun.R
+import java.text.DecimalFormat
 
-
-class Record(var date:String, var total_distance:String, var average_pace: String)
-
-class RecordAdapter(private var Records: MutableList<Record>, private var mContext: Context): BaseAdapter() {
+class RecordAdapter(private var Records: Array<Record>, private var mContext: Context): BaseAdapter() {
     override fun getCount(): Int {
         return Records.size
     }
@@ -44,9 +42,9 @@ class RecordAdapter(private var Records: MutableList<Record>, private var mConte
 
         val temp: Record = Records[i]
 
-        textViews[0].text = temp.date
-        textViews[1].text = temp.total_distance + " km"
-        textViews[2].text = temp.average_pace + " m/km"
+        textViews[0].text = temp.getDate()
+        textViews[1].text = "${DecimalFormat("###0.00").format(temp.length)} m"
+        textViews[2].text = "${DecimalFormat("###0.00").format(temp.getPace())} m/km"
 
         return viewtemp
     }

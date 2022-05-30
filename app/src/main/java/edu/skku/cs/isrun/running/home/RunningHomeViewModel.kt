@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import edu.skku.cs.isrun.RunResult
 import edu.skku.cs.isrun.UserRunData
+import edu.skku.cs.isrun.running.record.Record
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import java.nio.charset.StandardCharsets
@@ -29,6 +30,7 @@ class RunningHomeViewModel: ViewModel() {
     // save user run data
     var userData:MutableLiveData<UserRunData> = MutableLiveData()
     var runResult:MutableLiveData<RunResult> = MutableLiveData()
+    var recordList = MutableLiveData<Array<Record>>()
 
     @SuppressLint("NotConstructor")
     fun RunningHomeViewModel() {

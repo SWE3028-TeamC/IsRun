@@ -10,15 +10,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.GsonBuilder
 import com.kakao.util.maps.helper.Utility
 import edu.skku.cs.isrun.databinding.ActivityMainBinding
 import edu.skku.cs.isrun.running.home.RunningHomeViewModel
-import org.eclipse.paho.client.mqttv3.*
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
-import java.nio.charset.StandardCharsets
 
 class MainActivity : AppCompatActivity() {
 
