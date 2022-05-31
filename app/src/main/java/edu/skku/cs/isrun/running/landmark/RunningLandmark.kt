@@ -22,9 +22,36 @@ class RunningLandmark : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        landmarkviewModel = ViewModelProvider(this).get(RunningLandmarkViewModel::class.java)
         binding = RunningLandmarkFragmentBinding.inflate(inflater, container, false)
         return binding!!.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val near = binding?.nearSpot
+        val new = binding?.newSpot
+        val popular = binding?.popularSpot
+
+        near?.setOnClickListener {
+            near.setBackgroundResource(R.color.white)
+            new?.setBackgroundResource(R.color.purple_500)
+            popular?.setBackgroundResource(R.color.purple_500)
+            // set near adapter
+        }
+        new?.setOnClickListener {
+            near?.setBackgroundResource(R.color.purple_500)
+            new.setBackgroundResource(R.color.white)
+            popular?.setBackgroundResource(R.color.purple_500)
+            // set new adapter
+        }
+
+        popular?.setOnClickListener {
+            near?.setBackgroundResource(R.color.purple_500)
+            new?.setBackgroundResource(R.color.purple_500)
+            popular.setBackgroundResource(R.color.white)
+            // set popular adapter
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

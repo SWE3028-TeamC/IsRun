@@ -7,9 +7,54 @@
     tools:context=".running.landmark.RunningLandmark">
 
     <TextView
+        android:id="@+id/nearSpot"
+        style="@style/title.mid"
+        android:paddingVertical="20dp"
+        android:textAlignment="center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Near"
+        app:layout_constraintBottom_toTopOf="@id/locationContainer"
+        app:layout_constraintEnd_toStartOf="@+id/newSpot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/newSpot"
+        style="@style/title.mid"
+        android:paddingVertical="20dp"
+        android:textAlignment="center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="New"
+        android:background="@color/purple_500"
+        app:layout_constraintBottom_toBottomOf="@+id/nearSpot"
+        app:layout_constraintEnd_toStartOf="@+id/popularSpot"
+        app:layout_constraintStart_toEndOf="@id/nearSpot"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/popularSpot"
+        style="@style/title.mid"
+        android:paddingVertical="20dp"
+        android:textAlignment="center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Popular"
+        android:background="@color/purple_500"
+        app:layout_constraintBottom_toBottomOf="@+id/nearSpot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/newSpot"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/locationContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Landmark"
-        />
+        android:layout_height="0dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nearSpot" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
